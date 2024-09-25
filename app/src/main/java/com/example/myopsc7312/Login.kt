@@ -46,10 +46,12 @@ class Login : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+
             if (TextUtils.isEmpty(password)) {
                 passwordEditText.error = "Password is required"
                 return@setOnClickListener
             }
+
 
             // Perform login with Firebase Auth
             auth.signInWithEmailAndPassword(username, password)
@@ -57,7 +59,7 @@ class Login : AppCompatActivity() {
                     if (task.isSuccessful) {
                         // Login successful, navigate to DashboardActivity
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, MainActivity::class.java) // Change to Accounts Page
                         startActivity(intent)
                     } else {
                         // Login failed, show error message

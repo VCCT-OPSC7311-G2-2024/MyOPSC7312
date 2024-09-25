@@ -10,31 +10,49 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="123dp"
+        android:layout_marginBottom="588dp"
         android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="112dp"
-        tools:layout_editor_absoluteY="4dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="175dp"
         android:layout_height="39dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="143dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="549dp"
         android:gravity="center"
         android:text="Register"
         android:textSize="24sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="112dp"
-        tools:layout_editor_absoluteY="143dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:layout_width="389dp"
         android:layout_height="343dp"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="182dp"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="206dp"
         android:gravity="center"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="182dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <EditText
             android:id="@+id/et_name"
@@ -78,9 +96,9 @@
             android:layout_width="242dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
-            android:textColor="@android:color/black"
             android:text="Register"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,9 +121,12 @@
         android:id="@+id/view"
         android:layout_width="412dp"
         android:layout_height="195dp"
+        android:layout_marginTop="536dp"
         android:background="#FFFCFC"
         android:backgroundTint="@android:color/white"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-1dp"
-        tools:layout_editor_absoluteY="536dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

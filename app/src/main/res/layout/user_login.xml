@@ -1,40 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#93DFA2"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="#93DFA2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"></LinearLayout>
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="123dp"
+        android:layout_marginBottom="588dp"
         android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="112dp"
-        tools:layout_editor_absoluteY="4dp" />
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="175dp"
         android:layout_height="39dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginTop="143dp"
+        android:layout_marginEnd="124dp"
+        android:layout_marginBottom="549dp"
         android:gravity="center"
         android:text="Login"
         android:textSize="24sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="112dp"
-        tools:layout_editor_absoluteY="143dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:layout_width="387dp"
         android:layout_height="173dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="182dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="376dp"
         android:gravity="center"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="182dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <EditText
             android:id="@+id/et_username"
@@ -76,21 +99,29 @@
 
     <View
         android:id="@+id/view2"
-        android:layout_width="413dp"
-        android:layout_height="359dp"
-        android:background="#FFFFFF"
-        tools:layout_editor_absoluteX="-2dp"
-        tools:layout_editor_absoluteY="372dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_width="411dp"
+        android:layout_height="257dp"
+        android:layout_marginTop="474dp"
+        android:background="#FDFCFC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="380dp"
         android:layout_height="208dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="493dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="372dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/myTextView"
@@ -105,8 +136,8 @@
             android:id="@+id/imageButton2"
             android:layout_width="201dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:backgroundTint="#FDFDFD"
+            android:gravity="center"
             app:srcCompat="@drawable/android_light_rd_ctn_2x" />
 
         <TextView
@@ -121,7 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@android:color/holo_blue_light"
-            android:text="Sign up" />
+            android:text="Sign up"
+            android:textColor="@android:color/holo_blue_light" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

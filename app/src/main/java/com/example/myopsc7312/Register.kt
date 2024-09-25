@@ -9,11 +9,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class Register : Fragment() {
+class Register : AppCompatActivity() {
 
     private lateinit var etName: EditText
     private lateinit var etUsername: EditText
@@ -24,21 +24,19 @@ class Register : Fragment() {
     private lateinit var myTextView: TextView
     private lateinit var database: DatabaseReference
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.user_regsiter, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.user_regsiter)
+
 
         // Initialize views
-        etName = view.findViewById(R.id.et_name)
-        etUsername = view.findViewById(R.id.et_username)
-        etEmail = view.findViewById(R.id.et_email)
-        etPassword = view.findViewById(R.id.editTextPassword)
-        etConfirmPassword = view.findViewById(R.id.editTextConfirmPassword)
-        regButton = view.findViewById(R.id.regButton)
-        myTextView = view.findViewById(R.id.myTextView)
+        etName = findViewById(R.id.et_name)
+        etUsername = findViewById(R.id.et_username)
+        etEmail = findViewById(R.id.et_email)
+        etPassword = findViewById(R.id.editTextPassword)
+        etConfirmPassword = findViewById(R.id.editTextConfirmPassword)
+        regButton = findViewById(R.id.regButton)
+        myTextView = findViewById(R.id.myTextView)
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
@@ -51,11 +49,9 @@ class Register : Fragment() {
         // Set up sign in TextView click listener
         myTextView.setOnClickListener {
             // Navigate to SignInActivity
-            val intent = Intent(activity, Login::class.java)
+            val intent = Intent(this, Login::class.java)
             startActivity(intent)
         }
-
-        return view
     }
 
     private fun registerUser() {
@@ -67,16 +63,47 @@ class Register : Fragment() {
 
         // Simple validation
         if (name.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (password != confirmPassword) {
-            Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (password.length < 8) {
+            Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (password.length < 8) {
+            Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show()
             return
         }
 
-        //logic to save the user to a database or authenticate
+        if (!password.matches(Regex(".*[A-Z].*"))) {
+            Toast.makeText(this, "Password must contain at least one uppercase letter", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (!password.matches(Regex(".*[0-9].*"))) {
+            Toast.makeText(this, "Password must contain at least one digit", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (!password.matches(Regex(".*[!@#\$%^&*].*"))) {
+            Toast.makeText(this, "Password must contain at least one special character (!@#\$%^&*)", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (username.length < 5) {
+            Toast.makeText(this, "Username must be at least 5 characters", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (!username.matches(Regex("^[a-zA-Z0-9_]*$"))) {
+            Toast.makeText(this, "Username can only contain letters, digits, and underscores", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         // Save user to Firebase Realtime Database
         val userId = database.push().key
@@ -84,14 +111,14 @@ class Register : Fragment() {
         if (userId != null) {
             database.child("users").child(userId).setValue(user).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(requireContext(), "Registration successful!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(requireContext(), "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
         // Show success message
-        Toast.makeText(requireContext(), "Registration successful!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
     }
+    data class User(val name: String, val username: String, val email: String, val password: String)
 }
-data class User(val name: String, val username: String, val email: String, val password: String)
