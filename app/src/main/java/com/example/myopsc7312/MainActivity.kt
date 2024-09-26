@@ -23,18 +23,6 @@ class MainActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        findViewById<Button>(R.id.loginButton).setOnClickListener {
-            // Navigate to LoginActivity
-            val loginIntent = Intent(this, Register::class.java)
-            startActivity(loginIntent)
-        }
-
-        // Register button click listener
-        findViewById<Button>(R.id.registerButton).setOnClickListener {
-            // Navigate to RegisterActivity
-            val registerIntent = Intent(this, Login::class.java)
-            startActivity(registerIntent)
-        }
         // Handling insets (for edge-to-edge design)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
