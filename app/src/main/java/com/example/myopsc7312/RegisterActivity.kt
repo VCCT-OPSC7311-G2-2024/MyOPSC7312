@@ -72,10 +72,7 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show()
             return
         }
-        if (password.length < 8) {
-            Toast.makeText(this, "Password must be at least 8 characters", Toast.LENGTH_SHORT).show()
-            return
-        }
+
 
         if (!password.matches(Regex(".*[A-Z].*"))) {
             Toast.makeText(this, "Password must contain at least one uppercase letter", Toast.LENGTH_SHORT).show()
