@@ -106,6 +106,16 @@ class RegisterActivity : AppCompatActivity() {
             database.child("users").child(userId).setValue(user).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
+                    // Clear all fields
+                    etName.text.clear()
+                    etUsername.text.clear()
+                    etEmail.text.clear()
+                    etPassword.text.clear()
+                    etConfirmPassword.text.clear()
+
+                    // Navigate to new activity
+                    val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
+                    startActivity(intent)
                 } else {
                     Toast.makeText(this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
                 }
