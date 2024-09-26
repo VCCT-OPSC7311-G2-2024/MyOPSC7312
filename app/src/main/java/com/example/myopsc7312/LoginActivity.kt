@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 private lateinit var auth: FirebaseAuth
 
 
-class Login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     // Declare variables for UI components
     private lateinit var usernameEditText: EditText
@@ -71,7 +71,7 @@ class Login : AppCompatActivity() {
         // Handle sign up click
         signUpTextView.setOnClickListener {
             // Navigate to Sign Up Activity
-            val intent = Intent(this, Register::class.java)
+            val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
 

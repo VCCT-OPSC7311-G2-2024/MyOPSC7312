@@ -2,9 +2,6 @@ package com.example.myopsc7312
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -13,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class Register : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     private lateinit var etName: EditText
     private lateinit var etUsername: EditText
@@ -49,7 +46,7 @@ class Register : AppCompatActivity() {
         // Set up sign in TextView click listener
         myTextView.setOnClickListener {
             // Navigate to SignInActivity
-            val intent = Intent(this, Login::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
