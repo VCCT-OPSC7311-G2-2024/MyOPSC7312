@@ -4,20 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#93DFA2">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
+    android:background="@drawable/app_background">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="123dp"
+        android:id="@+id/imageView2"
+        android:layout_width="203dp"
+        android:layout_height="142dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="104dp"
         android:layout_marginBottom="588dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,9 +26,9 @@
         android:id="@+id/textView"
         android:layout_width="175dp"
         android:layout_height="39dp"
-        android:layout_marginStart="112dp"
+        android:layout_marginStart="118dp"
         android:layout_marginTop="143dp"
-        android:layout_marginEnd="124dp"
+        android:layout_marginEnd="118dp"
         android:layout_marginBottom="549dp"
         android:gravity="center"
         android:text="Login"
@@ -45,12 +40,12 @@
         tools:ignore="MissingConstraints" />
 
     <LinearLayout
-        android:layout_width="387dp"
-        android:layout_height="173dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="182dp"
+        android:layout_width="379dp"
+        android:layout_height="244dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="195dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="376dp"
+        android:layout_marginBottom="292dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,24 +55,32 @@
         tools:ignore="MissingConstraints">
 
         <EditText
-            android:id="@+id/et_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username"
-            android:inputType="text" />
+            android:id="@+id/et_email"
+            android:layout_width="356dp"
+            android:layout_height="67dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_edittext"
+            android:drawableStart="@drawable/user_icon"
+            android:drawablePadding="10dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/editTextPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="356dp"
+            android:layout_height="67dp"
+            android:background="@drawable/rounded_edittext"
+            android:drawableStart="@drawable/key_icon"
+            android:drawablePadding="10dp"
             android:ems="10"
             android:hint="Password"
             android:inputType="textPassword" />
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="match_parent"
+            android:layout_width="359dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:text="Forgot your password?" />
 
         <Button
@@ -97,24 +100,13 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/view2"
-        android:layout_width="411dp"
-        android:layout_height="257dp"
-        android:layout_marginTop="474dp"
-        android:background="#FDFCFC"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
-        android:layout_width="380dp"
-        android:layout_height="208dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="493dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="30dp"
+        android:layout_width="381dp"
+        android:layout_height="146dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="459dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="126dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -136,7 +128,7 @@
             android:id="@+id/imageButton2"
             android:layout_width="201dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="#FDFDFD"
+            android:backgroundTint="#92DE9A"
             android:gravity="center"
             app:srcCompat="@drawable/android_light_rd_ctn_2x" />
 
@@ -155,4 +147,5 @@
             android:text="Sign up"
             android:textColor="@android:color/holo_blue_light" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

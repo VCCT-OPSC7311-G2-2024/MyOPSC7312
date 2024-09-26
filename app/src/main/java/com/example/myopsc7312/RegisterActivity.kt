@@ -7,13 +7,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var etName: EditText
-    private lateinit var etUsername: EditText
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
     private lateinit var etConfirmPassword: EditText
@@ -27,16 +26,16 @@ class RegisterActivity : AppCompatActivity() {
 
 
         // Initialize views
-        etName = findViewById(R.id.et_name)
-        etUsername = findViewById(R.id.et_username)
         etEmail = findViewById(R.id.et_email)
         etPassword = findViewById(R.id.editTextPassword)
         etConfirmPassword = findViewById(R.id.editTextConfirmPassword)
         regButton = findViewById(R.id.regButton)
         myTextView = findViewById(R.id.myTextView)
+        FirebaseApp.initializeApp(this)
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
+
 
         // Set up register button click listener
         regButton.setOnClickListener {
@@ -45,21 +44,18 @@ class RegisterActivity : AppCompatActivity() {
 
         // Set up sign in TextView click listener
         myTextView.setOnClickListener {
-            // Navigate to SignInActivity
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
 
     private fun registerUser() {
-        val name = etName.text.toString().trim()
-        val username = etUsername.text.toString().trim()
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
         val confirmPassword = etConfirmPassword.text.toString().trim()
 
         // Simple validation
-        if (name.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+        if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
@@ -89,32 +85,20 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        if (username.length < 5) {
-            Toast.makeText(this, "Username must be at least 5 characters", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        if (!username.matches(Regex("^[a-zA-Z0-9_]*$"))) {
-            Toast.makeText(this, "Username can only contain letters, digits, and underscores", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         // Save user to Firebase Realtime Database
         val userId = database.push().key
-        val user = User(name, username, email, password)
+        val user = User(email, password)
         if (userId != null) {
             database.child("users").child(userId).setValue(user).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
                     // Clear all fields
-                    etName.text.clear()
-                    etUsername.text.clear()
                     etEmail.text.clear()
                     etPassword.text.clear()
                     etConfirmPassword.text.clear()
 
                     // Navigate to new activity
-                    val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
+                    val intent = Intent(this, HomeActivity::class.java) // Change to Accounts Page
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
@@ -124,5 +108,5 @@ class RegisterActivity : AppCompatActivity() {
         // Show success message
         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
     }
-    data class User(val name: String, val username: String, val email: String, val password: String)
+    data class User(val email: String, val password: String)
 }
