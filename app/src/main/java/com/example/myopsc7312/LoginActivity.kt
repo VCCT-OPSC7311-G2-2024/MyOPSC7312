@@ -15,7 +15,7 @@ private lateinit var auth: FirebaseAuth
 class LoginActivity : AppCompatActivity() {
 
     // Declare variables for UI components
-    private lateinit var usernameEditText: EditText
+    private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var loginButton: Button
     private lateinit var signUpTextView: TextView
@@ -26,7 +26,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.user_login)
 
         // Initialize UI components
-        usernameEditText = findViewById(R.id.et_username)
+        emailEditText = findViewById(R.id.et_email)
         passwordEditText = findViewById(R.id.editTextPassword)
         loginButton = findViewById(R.id.regButton)
         signUpTextView = findViewById(R.id.textView3)
@@ -37,12 +37,12 @@ class LoginActivity : AppCompatActivity() {
 
         // Handle login button click
         loginButton.setOnClickListener {
-            val username = usernameEditText.text.toString().trim()
+            val email = emailEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
             // Validate inputs
-            if (TextUtils.isEmpty(username)) {
-                usernameEditText.error = "Username is required"
+            if (TextUtils.isEmpty(email)) {
+                emailEditText.error = "Username is required"
                 return@setOnClickListener
             }
 
@@ -54,16 +54,16 @@ class LoginActivity : AppCompatActivity() {
 
 
             // Perform login with Firebase Auth
-            auth.signInWithEmailAndPassword(username, password)
+            auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Login successful, navigate to DashboardActivity
                         Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java) // Change to Accounts Page
+                        val intent = Intent(this, HomeActivity::class.java) // Change to Accounts Page
                         startActivity(intent)
                     } else {
                         // Login failed, show error message
-                        Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Invalid username or password", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
