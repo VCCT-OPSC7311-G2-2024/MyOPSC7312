@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Default background state -->
+    <item>
+        <shape>
+            <solid android:color="#FFFFFF" /> <!-- Background color -->
+            <corners android:radius="16dp" /> <!-- Rounded corners -->
+            <stroke
+                android:width="2dp"
+                android:color="#D3D3D3" /> <!-- Border color and width -->
+            <padding
+                android:left="16dp"
+                android:right="16dp"
+                android:top="12dp"
+                android:bottom="12dp" /> <!-- Padding inside the EditText -->
+        </shape>
+    </item>
+
+    <!-- Focused state background -->
+    <item android:state_focused="true">
+        <shape>
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="16dp" />
+            <stroke
+                android:width="2dp"
+                android:color="#FF6200EE" /> <!-- Change border color on focus -->
+        </shape>
+    </item>
+</selector>
