@@ -54,7 +54,7 @@
             android:id="@+id/usernameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="John Doe"
+            android:text=""
             android:textSize="18dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="150dp"
@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:textSize="18dp"
-            android:text="something"
+            android:text=""
             android:layout_marginStart="150dp"
             android:inputType="textPassword"
             android:enabled="false"/>

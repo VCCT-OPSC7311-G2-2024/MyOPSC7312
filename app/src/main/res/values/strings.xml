@@ -4,6 +4,4 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_name">Penny-Wise</string>
     <string name="app_icon_desc">App Icon</string>
-    <String name="money_icon_desc">Money Icon</String>
-    <String name="currency_header">Currency Converter</String>
 </resources>
