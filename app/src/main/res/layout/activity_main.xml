@@ -7,113 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!--App Tool bar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/light_dark_green"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!--App Name-->
-        <TextView
-            android:id="@+id/app_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:text="@string/app_name"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
-
-        <!--App Icon -->
-        <ImageView
-            android:id="@+id/app_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="end"
-            android:src="@drawable/app_icon"
-            android:contentDescription="@string/app_icon_desc" />
-    </androidx.appcompat.widget.Toolbar>
-
-    <!-- layout where fragment is displayed -->
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-
-
-    <!-- bottom app tool bar -->
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottom_app_bar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/light_dark_green"
+        android:text="Hello World!"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:fabAlignmentMode="center"
-        app:fabCradleMargin="10dp"
-        app:fabCradleRoundedCornerRadius="20dp"
-        app:fabCradleVerticalOffset="10dp"
-        tools:ignore="BottomAppBar">
-
-        <!-- Container for the Currency Converter Button -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="start"
-            android:layout_marginStart="50dp"
-            android:gravity="center">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/converter_icon"
-                android:background="@color/white"
-                android:contentDescription="ConverterBtn"/>
-
-            <TextView
-                android:id="@+id/converterTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Currency Converter"
-                android:textSize="15sp"
-                android:layout_marginTop="4dp" />
-
-        </LinearLayout>
-
-        <!-- Container for the Profile Button -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="end"
-            android:layout_marginEnd="50dp"
-            android:gravity="center">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/Profile_icon"
-                android:background="@color/white"
-                android:contentDescription="ProfileBtn"/>
-
-            <TextView
-                android:id="@+id/settingsTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ME"
-                android:textSize="15sp"
-                android:layout_marginTop="4dp"
-                />
-
-        </LinearLayout>
-
-    </com.google.android.material.bottomappbar.BottomAppBar>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
