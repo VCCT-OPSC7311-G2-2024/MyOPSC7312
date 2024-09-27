@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "576711534348",
+    "firebase_url": "https://opscbp2-default-rtdb.firebaseio.com",
+    "project_id": "opscbp2",
+    "storage_bucket": "opscbp2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:576711534348:android:dff0ced8076cd75cf2cb29",
+        "android_client_info": {
+          "package_name": "com.example.myopsc7312"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkXh_dAoRbMec1Y0zKgSWSTYiTIo-KchQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
