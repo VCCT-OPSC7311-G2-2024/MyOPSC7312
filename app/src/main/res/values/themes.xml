@@ -3,7 +3,12 @@
     <style name="Base.Theme.MyOPSC7312" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="bottomAppBarStyle">@style/CustomBottomAppBar</item>
     </style>
 
     <style name="Theme.MyOPSC7312" parent="Base.Theme.MyOPSC7312" />
+
+    <style name="CustomBottomAppBar" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="backgroundTint">@color/light_green</item>
+    </style>
 </resources>
