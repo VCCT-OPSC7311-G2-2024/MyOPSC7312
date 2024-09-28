@@ -12,12 +12,14 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 
 
 class Settings : Fragment() {
@@ -26,6 +28,10 @@ class Settings : Fragment() {
     var currentUserId ="";
     val database = Firebase.database
     val Ref = database.getReference("users")
+    // Variables to hold the original email and password
+    var originalEmail = ""
+    var originalPassword = ""
+
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var auth: FirebaseAuth
 
@@ -38,6 +44,10 @@ class Settings : Fragment() {
     private lateinit var notificationCheckBox: CheckBox
     private lateinit var onlineCheckBox: CheckBox
     private lateinit var languageSpinner: Spinner
+    //Nav buttons
+    private lateinit var converterNavBtn: ImageButton
+    private lateinit var homeNavBtn: ImageButton
+    private lateinit var settingsNavBtn: ImageButton
 
     //Holds constants for fragment
     companion object {
@@ -50,8 +60,7 @@ class Settings : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
+
         }
     }
 
@@ -89,11 +98,13 @@ class Settings : Fragment() {
                 val username = dataSnapshot.child("email").getValue(String::class.java)
                 val password = dataSnapshot.child("password").getValue(String::class.java)
 
+                //store original data
+                originalEmail = username.toString()
+                originalPassword = password.toString()
+
                 // Set the retrieved data to the EditText fields
                 usernameField.setText(username)
                 passwordField.setText(password)
-                Toast.makeText(requireContext(), "${usernameField.text},1", Toast.LENGTH_SHORT).show()
-                Toast.makeText(requireContext(), "${passwordField.text},2", Toast.LENGTH_SHORT).show()
 
             } else {
                 Toast.makeText(requireContext(), "User data not found", Toast.LENGTH_SHORT).show()
@@ -114,6 +125,11 @@ class Settings : Fragment() {
         onlineCheckBox = view.findViewById(R.id.offlineCheckBox)
         languageSpinner = view.findViewById(R.id.languageSpinner)
 
+        //nav buttons
+        converterNavBtn = view.findViewById(R.id.currencyNavBtn)
+        homeNavBtn = view.findViewById(R.id.homeNavBtn)
+        settingsNavBtn = view.findViewById(R.id.settingsNavBtn)
+
         // Initialize SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
@@ -129,7 +145,22 @@ class Settings : Fragment() {
         signOutBtn.setOnClickListener { signOut() }
         saveBtn.setOnClickListener { saveChanges() }
         editBtn.setOnClickListener { enableEditing() }
+
+        //navigation functions
+        converterNavBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), CurrencyConverter::class.java)
+            startActivity(intent)
+        }
+        homeNavBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), HomeActivity::class.java)
+            startActivity(intent)
+        }
+        settingsNavBtn.setOnClickListener {
+            val intent = Intent(requireActivity(), Settings::class.java)
+            startActivity(intent)
+        }
     }
+
 
     private fun languageChange(){
 
@@ -156,18 +187,76 @@ class Settings : Fragment() {
     private fun enableEditing() {
         signOutBtn.visibility = View.GONE
         saveBtn.visibility = View.VISIBLE
+        saveBtn.isEnabled = true
+        editBtn.visibility = View.GONE
         usernameField.isEnabled = true
         passwordField.isEnabled = true
         notificationCheckBox.isEnabled = true
         onlineCheckBox.isEnabled = true
     }
 
-    // Save changes (this can be expanded with more specific logic)
-    private fun saveChanges() {
-        // Logic to save user changes
-        // ...
+    private fun validateNewInputs(username:String ,password: String): Boolean {
+
+        if(username.isEmpty()|| password.isEmpty()){
+
+            Toast.makeText(requireContext(), "Username  and password field empty", Toast.LENGTH_SHORT).show()
+            return false
+
+        }else if(username.equals(originalEmail) || password.equals(originalPassword) ) {
+
+            Toast.makeText(requireContext(), "No changes made", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 
+    // Save changes to the user profile in firebase
+    private fun saveChanges() {
+        signOutBtn.visibility = View.VISIBLE
+        saveBtn.visibility = View.GONE
+        usernameField.isEnabled = false
+        passwordField.isEnabled = false
+        notificationCheckBox.isEnabled = false
+        onlineCheckBox.isEnabled = false
+
+        if(validateNewInputs(usernameField.text.toString(),passwordField.text.toString()) == true)
+        {
+            // Save the changes to the database
+            val username = usernameField.text.toString()
+            val password = passwordField.text.toString()
+            val notifications = notificationCheckBox.isChecked
+            val onlineMode = onlineCheckBox.isChecked
+
+            // Get the user reference
+            val userRef = database.getReference("users").child(currentUserId)
+
+            //packaging the data to be updated
+            val updates = mapOf(
+                "email" to username,
+                "password" to password
+            )
+
+            // Update the user data in the database
+            userRef.updateChildren(updates).addOnSuccessListener {
+                // Update successful
+                Toast.makeText(requireContext(), "User data updated successfully", Toast.LENGTH_SHORT).show()
+                //send notification
+                if (PreferenceUtils.areNotificationsEnabled(requireContext())) {
+                    val message = "Your profile has been updated"
+                    NotificationUtils.sendNotification("all", "Profile Update", message)
+                }
+
+            }.addOnFailureListener { e ->
+                // Update failed
+                Toast.makeText(requireContext(), "Failed to update user data: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+
+            // Save the changes to SharedPreferences
+            savePreference(KEY_NOTIFICATIONS_ENABLED, notifications)
+            savePreference(KEY_ONLINE_MODE, onlineMode)
+
+        }
+    }
 
 
     // Handle online mode checkbox change

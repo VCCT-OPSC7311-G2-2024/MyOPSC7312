@@ -24,7 +24,6 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_regsiter)
 
-
         // Initialize views
         etEmail = findViewById(R.id.et_email)
         etPassword = findViewById(R.id.editTextPassword)
@@ -35,7 +34,6 @@ class RegisterActivity : AppCompatActivity() {
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
-
 
         // Set up register button click listener
         regButton.setOnClickListener {
@@ -98,7 +96,7 @@ class RegisterActivity : AppCompatActivity() {
                     etConfirmPassword.text.clear()
 
                     // Navigate to new activity
-                    val intent = Intent(this, HomeActivity::class.java) // Change to Accounts Page
+                    val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
@@ -108,5 +106,5 @@ class RegisterActivity : AppCompatActivity() {
         // Show success message
         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
     }
-    data class User(val email: String, val password: String)
+    //data class User(val email: String, val password: String)
 }
