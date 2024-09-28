@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">MyOPSC7312</string>
+    <string name="Project_name">MyOPSC7312</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Penny-Wise</string>
+    <string name="app_icon_desc">App Icon</string>
+    <string name="currency_converter_desc">Currency converter</string>
+    <string name="settings_desc">Profile</string>
 </resources>

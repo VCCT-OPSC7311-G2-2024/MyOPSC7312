@@ -78,9 +78,13 @@ class LoginActivity : AppCompatActivity() {
                     if (user != null) {
                         if (user.email == email && user.password == password) {
                             userFound = true
+                            val userId = userSnapshot.key // This retrieves the user's ID from Firebase
+
                             Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
-                            // Navigate to Home or Dashboard
+
+                            // Navigate to Home or Dashboard and pass the userId
                             val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                            intent.putExtra("USER_ID", userId) // Pass userId to the next activity
                             startActivity(intent)
                             finish() // Optionally close login screen
                             break
@@ -98,5 +102,6 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    data class User(val email: String = "", val password: String = "")
+
+   // data class User(val email: String = "", val password: String = "")
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/app_background"
+    tools:context=".CurrencyConverter">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/money_icon"
+        android:contentDescription="@string/app_icon_desc" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        android:text="Currency \n Converter"/>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/amount"
+            android:autofillHints="Enter Amount"
+            android:hint="Enter Amount"
+            android:inputType="numberDecimal"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="50dp"
+            android:background="@color/white"/>
+
+        <Spinner
+            android:id="@+id/currency"
+            android:spinnerMode="dropdown"
+            android:background="@color/white"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:padding="10dp"
+            android:layout_marginStart="40dp" />
+
+    </LinearLayout>
+
+        <Spinner
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="50dp"
+            android:autofillHints="Target currency"
+            android:spinnerMode="dropdown"
+            android:background="@color/white"/>
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/round_button_shape"
+            android:text="Convert"
+            android:textSize="20dp"
+            android:contentDescription="processBtn" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="100dp"
+            android:text="0"/>
+
+</LinearLayout>
