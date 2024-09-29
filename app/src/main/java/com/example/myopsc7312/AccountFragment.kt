@@ -36,7 +36,7 @@ class AccountFragment : Fragment() {
         // Reference to the LinearLayout that will contain account details
         accountListContainer = view.findViewById(R.id.AccountListContainer)
 
-        // Find the FrameLayout by its ID (assuming it's something like `frame_add_account`)
+        // Find the FrameLayout by its ID
         val addAccountFrame: FrameLayout = view.findViewById(R.id.AddAccountLayout)
         // Reference to the TextView for total assets value
         assetsValueTextView = view.findViewById(R.id.AssetsValue)
@@ -51,7 +51,6 @@ class AccountFragment : Fragment() {
         }
         // Load and display the accounts for the logged-in user
         loadAccounts()
-
         return view
     }
 
@@ -66,6 +65,7 @@ class AccountFragment : Fragment() {
                 for (accountSnapshot in snapshot.children) {
                     // Get the Account object from Firebase
                     val account = accountSnapshot.getValue(Account::class.java)
+                    val accountId = accountSnapshot.key
 
                     // If account is not null, inflate the account_item.xml layout
                     if (account != null) {
@@ -77,6 +77,13 @@ class AccountFragment : Fragment() {
 
                         accountNameText.text = account.name
                         accountBalanceText.text = "R " + account.balance // Assuming the balance is in Rands
+
+                        // Set an OnClickListener for the account item
+                        accountItemView.setOnClickListener {
+                            if (accountId != null) {
+                                openBudgetFragment(accountId)
+                            }
+                        }
 
                         // Add the inflated view to the LinearLayout
                         accountListContainer.addView(accountItemView)
@@ -93,6 +100,22 @@ class AccountFragment : Fragment() {
             }
         })
     }
+
+    private fun openBudgetFragment(accountId: String) {
+        val fragment = budget()
+
+        // Create a bundle to pass the accountId to the fragment
+        val bundle = Bundle()
+        bundle.putString("accountId", accountId)
+        fragment.arguments = bundle
+
+        // Navigate to the fragment_budget
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment) // Replace with your container ID
+            .addToBackStack(null)
+            .commit()
+    }
+
 
     // Account data class
     data class Account(val name: String = "", val balance: String = "", val type: String = "")

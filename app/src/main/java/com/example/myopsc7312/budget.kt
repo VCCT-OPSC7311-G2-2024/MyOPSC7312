@@ -1,59 +1,125 @@
 package com.example.myopsc7312
 
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [budget.newInstance] factory method to
- * create an instance of this fragment.
- */
 class budget : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var name: EditText
+    private lateinit var amount: EditText
+    private lateinit var database: DatabaseReference
+    private lateinit var budgetListContainer: LinearLayout
+    private lateinit var accountUid: String // Store user UID
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_budget, container, false)
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment budget.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            budget().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        val view = inflater.inflate(R.layout.fragment_budget, container, false)
+        name = view.findViewById(R.id.enterName)
+        amount = view.findViewById(R.id.enterBudget)
+        budgetListContainer = view.findViewById(R.id.budgetListContainer)
+
+        // Retrieve the accountId from arguments
+        accountUid = arguments?.getString("accountId").toString()
+        // Initialize Firebase Database
+        database = FirebaseDatabase.getInstance().getReference("accounts/$accountUid/budgets")
+
+        val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
+        btnSubmit.setOnClickListener {
+            saveData()
+        }
+        val filter = InputFilter { source, _, _, _, _, _ ->
+            for (i in source.indices) {
+                if (!source[i].isLetter()) {
+                    return@InputFilter ""  // Block anything that is not a letter
                 }
             }
+            null
+        }
+        name.filters = arrayOf(filter)
+
+        // Load budgets for this account
+        loadBudgets()
+        return view
     }
+
+    //Save data to Firebase Realtime Database
+    private fun saveData() {
+        val enterName = name.text.toString().trim()
+        val enterAmount = amount.text.toString().trim()
+
+        // Simple validation
+        if (enterName.isEmpty() || enterAmount.isEmpty()) {
+            Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val accountId = database.push().key!!
+        val account = Budget(enterName, enterAmount, )
+
+        database.child(accountId).setValue(account)
+            .addOnCompleteListener {
+                // Success message
+                Toast.makeText(requireContext(), "Budget added successfully", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                // Failure message
+                Toast.makeText(requireContext(), "Failed to add budget", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun loadBudgets() {
+        // Retrieve accounts from Firebase
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // Clear the container first
+                budgetListContainer.removeAllViews()
+                // Loop through the children of the snapshot
+                for (budgetSnapshot in snapshot.children) {
+                    // Get the Account object from Firebase
+                    val budget = budgetSnapshot.getValue(Budget2::class.java)
+
+                    // If account is not null, inflate the account_item.xml layout
+                    if (budget != null) {
+                        val budgetItemView = layoutInflater.inflate(R.layout.budget_item, null)
+
+                        // Find and set the TextViews for account name and balance
+                        val budgetNameText = budgetItemView.findViewById<TextView>(R.id.BudgetName)
+                        val budgetBalanceText = budgetItemView.findViewById<TextView>(R.id.BudgetValue)
+
+                        budgetNameText.text = budget.name
+                        budgetBalanceText.text = "R " + budget.amount // Assuming the balance is in Rands
+
+                        // Add the inflated view to the LinearLayout
+                        budgetListContainer.addView(budgetItemView)
+                    }
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Handle potential errors
+            }
+        })
+    }
+
+    // Account data class
+    data class Budget2(val name: String = "", val amount: String = "")
+    data class Budget( val name: String, val amount: String)
 }

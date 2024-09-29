@@ -13,6 +13,7 @@
     <string name="select_account_type">Select account</string>
     <string name="addacount_header_text">Add Account</string>
     <string name="budget_header_text">Budget</string>
+    <string name="analytics_header_text">Analytics</string>
     <string name="btn_cancel">Cancel</string>
     <string name="name">Name</string>
     <string name="account_name_prompt">Enter account name</string>
@@ -23,6 +24,16 @@
         <item>Savings</item>
         <item>Checking</item>
     </string-array>
+    <string name="submit">Submit</string>
+    <string name="refresh">Refresh</string>
+    <string name="budget_header">Make your Budget</string>
+    <string name="back">Back to Analytics</string>
+    <string name="monthStats">Monthly Statistics</string>
+    <string name="monthBudget">Monthly Budget</string>
+    <string name="arrow"> > </string>
+    <string name="balances"> Balance </string>
+    <string name="expense"> Expense </string>
+    <string name="month"> Month </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
