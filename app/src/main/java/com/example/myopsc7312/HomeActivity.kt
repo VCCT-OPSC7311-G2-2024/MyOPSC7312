@@ -27,6 +27,15 @@ class HomeActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+
+        }
+
+        // Check if the saved instance state is null to avoid adding the fragment again on rotation
+        if (savedInstanceState == null) {
+            // Load the AccountsFragment when the app starts
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, AccountFragment())
+                .commit()
         }
     }
 }

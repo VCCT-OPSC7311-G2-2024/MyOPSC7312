@@ -1,3 +1,28 @@
 <resources>
     <string name="app_name">MyOPSC7312</string>
+    <string name="account_header_text">Accounts</string>
+    <string name="networth_text">Networth</string>
+    <string name="assets_value">0</string>
+    <string name="asset_text">Assets</string>
+    <string name="liabilities_text">Liabilities</string>
+    <string name="liabilities_value">0</string>
+    <string name="savings_text">Savings</string>
+    <string name="add_account">Add account</string>
+    <string name="converter">Converter</string>
+    <string name="profile">Me</string>
+    <string name="select_account_type">Select account</string>
+    <string name="addacount_header_text">Add Account</string>
+    <string name="budget_header_text">Budget</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="name">Name</string>
+    <string name="account_name_prompt">Enter account name</string>
+    <string name="account_balance">Account Balance</string>
+    <string name="account_balance_prompt">Enter account balance</string>
+    <string name="account_type">Account Type</string>
+    <string-array name="acount_types">
+        <item>Savings</item>
+        <item>Checking</item>
+    </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

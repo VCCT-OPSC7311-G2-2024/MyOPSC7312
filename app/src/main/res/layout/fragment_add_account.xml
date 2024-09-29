@@ -10,10 +10,10 @@
         android:id="@+id/Background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/app_bg"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-182dp">
+        android:background="@drawable/app_background"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="-200dp"
+        android:orientation="vertical">
 
     </LinearLayout>
 
@@ -72,11 +72,11 @@
             android:layout_marginStart="300dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
-            android:src="@drawable/logo_1"/>
+            android:src="@drawable/logo"/>
 
     </FrameLayout>
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/Footer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -89,7 +89,9 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="start"
-            android:layout_marginStart="65dp">
+            android:layout_marginStart="65dp"
+            app:layout_constraintStart_toStartOf="@id/Footer"
+            tools:ignore="MissingConstraints">
 
             <ImageView
                 android:id="@+id/imageView7"
@@ -103,7 +105,6 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:text="@string/converter"
-
                 android:layout_marginTop="30dp"/>
         </FrameLayout>
 
@@ -112,7 +113,9 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
-            android:layout_marginEnd="65dp">
+            android:layout_marginEnd="65dp"
+            app:layout_constraintEnd_toEndOf="@id/Footer"
+            tools:ignore="MissingConstraints">
 
             <ImageView
                 android:id="@+id/imageView8"
@@ -129,7 +132,10 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="30dp"/>
         </FrameLayout>
-    </FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/imageView6"
@@ -148,7 +154,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_margin="16dp"
-        android:text="@string/btn_add_account"
+        android:text="@string/add_account"
         android:backgroundTint="@color/blockGreen"
         app:cornerRadius="15dp"
         android:textSize="16sp"
@@ -218,8 +224,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/shape_2"
-        android:ems="10"
-        android:inputType="text"
+        android:inputType="number"
         android:hint="@string/account_balance_prompt"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"

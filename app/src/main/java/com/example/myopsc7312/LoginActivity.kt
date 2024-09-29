@@ -78,9 +78,13 @@ class LoginActivity : AppCompatActivity() {
                     if (user != null) {
                         if (user.email == email && user.password == password) {
                             userFound = true
+                            // Store the user ID (uid)
+                            val uid = userSnapshot.key // Assuming the key is the UID
                             Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
                             // Navigate to Home or Dashboard
-                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                            val intent = Intent(this@LoginActivity, HomeActivity::class.java).apply {
+                                putExtra("USER_UID", uid) // Pass the UID to the Home Activity
+                            }
                             startActivity(intent)
                             finish() // Optionally close login screen
                             break

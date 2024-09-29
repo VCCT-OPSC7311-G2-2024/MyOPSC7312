@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AccountFragment">
+
+    <LinearLayout
+        android:id="@+id/Background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/app_background"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="-200dp"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/headerBackgroundContainer"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/headerBackground"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:alpha="0.6"
+            android:background="@color/headerGreen"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:text="@string/account_header_text"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo"
+            android:layout_marginStart="300dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/NetworthBlock"
+        android:layout_width="316dp"
+        android:layout_height="116dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerBackgroundContainer"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_1">
+
+        <FrameLayout
+            android:id="@+id/NetworthSide"
+            android:layout_width="110dp"
+            android:layout_height="116dp"
+            android:layout_marginStart="206dp">
+
+            <TextView
+                android:id="@+id/NetworthText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="@string/networth_text"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:id="@+id/NetworthValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="@string/assets_value"
+                android:layout_marginTop="60dp"
+                android:layout_marginStart="25dp"/>
+
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/line1"
+            android:layout_width="206dp"
+            android:layout_height="2dp"
+            android:background="@color/white"
+            android:layout_marginTop="55dp"/>
+
+        <FrameLayout
+            android:id="@+id/line2"
+            android:layout_width="2dp"
+            android:layout_height="116dp"
+            android:background="@color/white"
+            android:layout_marginStart="205dp"/>
+
+        <FrameLayout
+            android:id="@+id/AssetBlock"
+            android:layout_width="200dp"
+            android:layout_height="58dp">
+
+            <TextView
+                android:id="@+id/AssetText"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:textColor="@color/white"
+                android:text="@string/asset_text"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="25dp"/>
+
+            <TextView
+                android:id="@+id/AssetsValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/assets_value"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="25dp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/LiabilitiesBlock"
+            android:layout_width="200dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="55dp">
+
+            <TextView
+                android:id="@+id/LiabilitiesText"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="@string/liabilities_text"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="25dp"/>
+
+            <TextView
+                android:id="@+id/LiabilitieValue"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="@string/liabilities_value"
+                android:layout_marginTop="33dp"
+                android:layout_marginStart="25dp"/>
+
+        </FrameLayout>
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/account_header_text"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/accountScrollView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NetworthBlock" />
+
+<ScrollView
+    android:id="@+id/accountScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="230dp"
+    android:fillViewport="true"
+    app:layout_constraintBottom_toTopOf="@+id/AddAccountLayout"
+    app:layout_constraintTop_toBottomOf="@+id/NetworthBlock">
+
+    <LinearLayout
+        android:id="@+id/AccountListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/AddAccountLayout"
+        android:layout_width="173dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="93dp"
+        android:layout_marginBottom="220dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="32dp"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/add_button" />
+
+        <TextView
+            android:id="@+id/AddAccountText"
+            android:layout_width="100dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="55dp"
+            android:text="@string/add_account"
+            android:textStyle="bold"/>
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Footer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/footer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1">
+
+        <FrameLayout
+            android:id="@+id/ConverterNavigator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="65dp"
+            app:layout_constraintStart_toStartOf="@id/Footer"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/converter_icon" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="@string/converter"
+                android:layout_marginTop="30dp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ProfilerNavigator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="65dp"
+            app:layout_constraintEnd_toEndOf="@id/Footer"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/profile_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/profile"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"/>
+        </FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:layout_weight="1"
+        android:src="@drawable/add_expense_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/Footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="25dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
