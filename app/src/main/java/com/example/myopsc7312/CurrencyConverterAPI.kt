@@ -1,11 +1,13 @@
 package com.example.myopsc7312
 
+import android.content.Intent
 import android.os.Bundle
 import okhttp3.Call
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +24,9 @@ class CurrencyConverterAPI : AppCompatActivity() {
     private lateinit var toCurrency: Spinner
     private lateinit var resultView: TextView
     private lateinit var convertButton: Button
+    private lateinit var converterNavigation: ImageView
+    private lateinit var homeNav: ImageView
+    private lateinit var profileNav: ImageView
 
     // Expanded list of global currencies
     private val currencyList = arrayOf(
@@ -42,6 +47,10 @@ class CurrencyConverterAPI : AppCompatActivity() {
         toCurrency = findViewById(R.id.toCurrency)
         resultView = findViewById(R.id.resultView)
         convertButton = findViewById(R.id.convertButton)
+        //footer navigation
+        converterNavigation = findViewById(R.id.converterNav)
+        homeNav = findViewById(R.id.homeIcon)
+        profileNav = findViewById(R.id.profileNav)
 
         // Set up spinners with currency list
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencyList)
@@ -61,6 +70,20 @@ class CurrencyConverterAPI : AppCompatActivity() {
                 resultView.text = "Please enter an amount."
             }
         }
+
+        //footer navigation
+        converterNavigation.setOnClickListener {
+            //val intent = Intent(requireActivity(), CurrencyConverterAPI::class.java)
+            //startActivity(intent)
+        }
+        homeNav.setOnClickListener {
+            //val intent = Intent(requireActivity(), ::class.java)
+            //finish()
+        }
+        profileNav.setOnClickListener {
+            finish()
+        }
+
     }
 
     private fun getExchangeRateAndConvert(amount: Double, from: String, to: String) {
