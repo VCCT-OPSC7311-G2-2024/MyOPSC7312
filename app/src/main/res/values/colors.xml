@@ -2,7 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="blockGreen">#4F8F79</color>
-    <color name="footer">#91DE99</color>
-    <color name="headerGreen">#2C6F0C</color>
+    <color name="light_dark_green">#4CAF50</color>
+    <color name="light_green">#A8E2A8</color>
 </resources>
