@@ -1,6 +1,7 @@
 package com.example.myopsc7312
 
 import android.os.Bundle
+import okhttp3.Call
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -8,6 +9,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.common.api.Response
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -78,7 +80,7 @@ class CurrencyConverterAPI : AppCompatActivity() {
                 }
             }
 
-            override fun onResponse(call: Call, response: Response) {
+            override fun onResponse(call: Call, response: okhttp3.Response) {
                 if (!response.isSuccessful) {
                     Log.e("CurrencyConverterAPI", "Unexpected response: ${response.message}")
                     runOnUiThread {
