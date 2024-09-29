@@ -148,7 +148,7 @@ class Settings : Fragment() {
 
         //navigation functions
         converterNavBtn.setOnClickListener {
-            val intent = Intent(requireActivity(), CurrencyConverter::class.java)
+            val intent = Intent(requireActivity(), CurrencyConverterAPI::class.java)
             startActivity(intent)
         }
         homeNavBtn.setOnClickListener {
