@@ -26,7 +26,8 @@ class budget : Fragment() {
     private lateinit var amount: EditText
     private lateinit var database: DatabaseReference
     private lateinit var budgetListContainer: LinearLayout
-    private lateinit var accountUid: String // Store user UID
+    private lateinit var accountUid: String
+    private lateinit var userUid: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,13 +42,26 @@ class budget : Fragment() {
 
         // Retrieve the accountId from arguments
         accountUid = arguments?.getString("accountId").toString()
+        userUid = arguments?.getString("userUid").toString()
+
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference("accounts/$accountUid/budgets")
 
         val btnBack = view.findViewById<Button>(R.id.btnBack)
         btnBack.setOnClickListener {
-            // Navigate back to the Account fragment
-            requireActivity().supportFragmentManager.popBackStack()
+
+            // Create a Bundle to pass data
+            val bundle = Bundle()
+            bundle.putString("userUid", userUid)
+            bundle.putString("accountId", accountUid)
+            val anyFragment = Anylitics()
+            anyFragment.arguments = bundle
+            // Perform fragment transaction to navigate to AddAccountFragment
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, anyFragment)
+                .addToBackStack(null)  // Add to back stack so that user can return to AccountsFragment
+                .commit()
+
         }
         val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
         btnSubmit.setOnClickListener {

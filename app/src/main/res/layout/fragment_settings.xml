@@ -240,23 +240,6 @@
                     android:src="@drawable/home_icon"
                     android:background="?attr/selectableItemBackground" />
             </LinearLayout>
-
-            <!-- Me Button -->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/settingsNavBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/profile_icon"
-                    android:background="?attr/selectableItemBackground" />
-            </LinearLayout>
-
         </LinearLayout>
 
     </com.google.android.material.bottomappbar.BottomAppBar>

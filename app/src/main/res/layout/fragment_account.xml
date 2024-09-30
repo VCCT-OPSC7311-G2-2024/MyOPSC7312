@@ -253,7 +253,7 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/ProfilerNavigator"
+            android:id="@+id/Profileravigator"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end"
@@ -278,17 +278,5 @@
         </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="bottom"
-        android:layout_weight="1"
-        android:src="@drawable/add_expense_icon"
-        app:layout_constraintBottom_toBottomOf="@+id/Footer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="25dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

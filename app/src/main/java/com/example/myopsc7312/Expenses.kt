@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener
 
 class Expenses : Fragment() {
     //variables for the fragment
+    private lateinit var userUid: String
     private var currentAccountId = "";
 
     //Firebase database reference
@@ -46,6 +47,7 @@ class Expenses : Fragment() {
 
         // Retrieve the accountId from arguments
         currentAccountId = arguments?.getString("accountId").toString()
+        userUid = arguments?.getString("userUid").toString()
         //currentUserId = arguments?.getString("userId").toString()
 
         // Initialize Firebase Database
@@ -55,6 +57,23 @@ class Expenses : Fragment() {
         //setting the onclick listener for the submit button
         submitBtn.setOnClickListener {
             saveData()
+
+        }
+        val btnBack = view.findViewById<Button>(R.id.btnBack)
+        btnBack.setOnClickListener {
+
+            // Create a Bundle to pass data
+            val bundle = Bundle()
+            bundle.putString("userUid", userUid)
+            bundle.putString("accountId", currentAccountId)
+            val anyFragment = Anylitics()
+            anyFragment.arguments = bundle
+            // Perform fragment transaction to navigate to AddAccountFragment
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, anyFragment)
+                .addToBackStack(null)  // Add to back stack so that user can return to AccountsFragment
+                .commit()
+
         }
 
         val filter = InputFilter { source, _, _, _, _, _ ->

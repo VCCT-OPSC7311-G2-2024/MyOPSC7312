@@ -17,30 +17,21 @@ class HomeActivity : AppCompatActivity() {
             insets
         }
 
+        // Check if the saved instance state is null to avoid adding the fragment again on rotation
         if (savedInstanceState == null) {
-            val settingsFragment = Settings()
-
+            val accountFragment = AccountFragment()
             // Get the userId passed from LoginActivity
-            val userId = intent.getStringExtra("USER_ID")
+            val userUid = intent.getStringExtra("userUid")
 
             // Create a Bundle and put the userId in it
             val bundle = Bundle()
-            bundle.putString("USER_ID", userId)
+            bundle.putString("userUid", userUid)
 
             // Set the arguments for the fragment
-            settingsFragment.arguments = bundle
-
-            // Add the fragment to the container
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, settingsFragment)
-                .commit()
-        }
-
-        // Check if the saved instance state is null to avoid adding the fragment again on rotation
-        if (savedInstanceState == null) {
+            accountFragment.arguments = bundle
             // Load the AccountsFragment when the app starts
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, AccountFragment())
+                .replace(R.id.fragment_container, accountFragment)
                 .commit()
         }
     }

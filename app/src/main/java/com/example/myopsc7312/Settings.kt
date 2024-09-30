@@ -80,7 +80,8 @@ class Settings : Fragment() {
         setupButtonListeners()
         setupCheckboxListeners()
 
-        currentUserId = arguments?.getString("USER_ID").toString()
+        currentUserId = arguments?.getString("userUid").toString()
+        Toast.makeText(requireContext(), currentUserId, Toast.LENGTH_SHORT).show()
         if (currentUserId != null) {
             // Now you have the userId, use it to populate user data
             populateUserData(currentUserId)
@@ -128,7 +129,6 @@ class Settings : Fragment() {
         //nav buttons
         converterNavBtn = view.findViewById(R.id.currencyNavBtn)
         homeNavBtn = view.findViewById(R.id.homeNavBtn)
-        settingsNavBtn = view.findViewById(R.id.settingsNavBtn)
 
         // Initialize SharedPreferences
         sharedPreferences = requireContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -148,16 +148,21 @@ class Settings : Fragment() {
 
         //navigation functions
         converterNavBtn.setOnClickListener {
-            val intent = Intent(requireActivity(), CurrencyConverterAPI::class.java)
+            val intent = Intent(requireContext(), CurrencyConverterAPI::class.java)
+            intent.putExtra("userUid", currentUserId)
             startActivity(intent)
         }
         homeNavBtn.setOnClickListener {
-            val intent = Intent(requireActivity(), HomeActivity::class.java)
-            startActivity(intent)
-        }
-        settingsNavBtn.setOnClickListener {
-            val intent = Intent(requireActivity(), Settings::class.java)
-            startActivity(intent)
+            // Create a Bundle to pass data
+            val bundle = Bundle()
+            bundle.putString("userUid", currentUserId)
+            val accountFragment = AccountFragment()
+            accountFragment.arguments = bundle
+            // Perform fragment transaction to navigate to AddAccountFragment
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, accountFragment)
+                .addToBackStack(null)  // Add to back stack so that user can return to AccountsFragment
+                .commit()
         }
     }
 

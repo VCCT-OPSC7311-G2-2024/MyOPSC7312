@@ -31,7 +31,7 @@ class AddAccountFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_add_account, container, false)
 
         // Retrieve the user's UID from arguments or a stored value
-        userUid = requireActivity().intent.getStringExtra("USER_UID") ?: ""
+        userUid = requireActivity().intent.getStringExtra("userUid") ?: ""
 
         // Reference to AutoCompleteTextView
         val accountTypeDropdown: AutoCompleteTextView = view.findViewById(R.id.autoCompleteText)
@@ -85,7 +85,7 @@ class AddAccountFragment : Fragment() {
         transaction?.replace(R.id.fragment_container, fragment)?.commit()
 
         val accountId = database.push().key!!
-        val account = Account(enterName, enterBalance, enterType)
+        val account = Account( enterBalance,enterName, enterType)
 
         database.child(accountId).setValue(account)
             .addOnCompleteListener {
@@ -97,5 +97,5 @@ class AddAccountFragment : Fragment() {
                 Toast.makeText(requireContext(), "Failed to add account", Toast.LENGTH_SHORT).show()
             }
     }
-    data class Account( val name: String, val balance: String, val type: String)
+    data class Account(  val balance: String, val name: String, val type: String)
 }
