@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.common.api.Response
 import okhttp3.*
@@ -27,6 +28,7 @@ class CurrencyConverterAPI : AppCompatActivity() {
     private lateinit var converterNavigation: ImageView
     private lateinit var homeNav: ImageView
     private lateinit var profileNav: ImageView
+    private lateinit var userUid: String
 
     // Expanded list of global currencies
     private val currencyList = arrayOf(
@@ -41,6 +43,10 @@ class CurrencyConverterAPI : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.currency_converter)
 
+        // Get the intent data
+        val message = intent.getStringExtra("userUid")
+        userUid = message.toString()
+
         // Initialize UI components
         amountInput = findViewById(R.id.amountInput)
         fromCurrency = findViewById(R.id.fromCurrency)
@@ -50,7 +56,6 @@ class CurrencyConverterAPI : AppCompatActivity() {
         //footer navigation
         converterNavigation = findViewById(R.id.converterNav)
         homeNav = findViewById(R.id.homeIcon)
-        profileNav = findViewById(R.id.profileNav)
 
         // Set up spinners with currency list
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, currencyList)
@@ -77,10 +82,9 @@ class CurrencyConverterAPI : AppCompatActivity() {
             //startActivity(intent)
         }
         homeNav.setOnClickListener {
-            //val intent = Intent(requireActivity(), ::class.java)
-            //finish()
-        }
-        profileNav.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("userUid", userUid)
+            startActivity(intent)
             finish()
         }
 

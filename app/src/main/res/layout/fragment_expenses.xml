@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Expenses">
+
+    <LinearLayout
+        android:id="@+id/Background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/app_background"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-199dp">
+
+        <FrameLayout
+            android:id="@+id/headerBackground"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:alpha="0.6"
+            android:background="@color/light_dark_green">
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/footer"
+        android:text="@string/back"
+        android:textColor="@color/blockGreen"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerBackgroundContainer" />
+
+    <TextView
+        android:id="@+id/ExpenseHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Log expenses here "
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headerBackgroundContainer" />
+
+    <FrameLayout
+        android:id="@+id/headerBackgroundContainer"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="15dp"
+            android:text="log expense"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="166dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:src="@drawable/logo" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/inputFields"
+        android:layout_width="250dp"
+        android:layout_height="100dp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="@+id/Background"
+        app:layout_constraintTop_toBottomOf="@+id/ExpenseHeading">
+
+        <TextView
+            android:id="@+id/Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginTop="10dp"
+            android:text="Name:"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/namePrompt"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginStart="60dp"
+            android:background="@drawable/shape_2"
+            android:hint="E.g. Groceries"
+            android:autofillHints="E.g. Groceries"
+            android:inputType="text"
+            android:textAlignment="center"
+            tools:ignore="RtlCompat" />
+
+
+        <TextView
+            android:id="@+id/Amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:text="Amount:"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/expenseField"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="60dp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/shape_2"
+            android:autofillHints="E.g. Groceries"
+            android:hint="E.g. 2000"
+            android:textAlignment="center"
+            tools:ignore="RtlCompat" />
+
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/accountScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/inputFields">
+
+        <LinearLayout
+            android:id="@+id/expenseListContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/shape_3">
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/submitBtn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/light_dark_green"
+        android:text="submit"
+        app:cornerRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/accountScrollView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
