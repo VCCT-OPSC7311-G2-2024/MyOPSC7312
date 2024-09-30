@@ -51,21 +51,7 @@ class budget : Fragment() {
         }
         val btnSubmit = view.findViewById<Button>(R.id.btnSubmit)
         btnSubmit.setOnClickListener {
-            // Get the entered budget amount
-            val enteredBudget = amount.text.toString().toDoubleOrNull()
             saveData()
-            // Ensure the entered amount is valid
-            if (enteredBudget != null) {
-                totalBudget += enteredBudget
-
-                // After adding the amount, you can send the totalBudget to Analytics
-                val intent = Intent(context, Anylitics::class.java) // Assuming you're navigating to an Activity
-                intent.putExtra("TOTAL_BUDGET_AMOUNT", totalBudget)
-                startActivity(intent)
-            } else {
-                // Handle invalid or empty input
-                Toast.makeText(context, "Please enter a valid amount", Toast.LENGTH_SHORT).show()
-            }
         }
         val filter = InputFilter { source, _, _, _, _, _ ->
             for (i in source.indices) {
@@ -92,9 +78,13 @@ class budget : Fragment() {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
+        if (enterAmount.toDoubleOrNull() == null || enterAmount.toDouble() < 1) {
+            Toast.makeText(requireContext(), "Please enter a number greater than 0", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         val accountId = database.push().key!!
-        val account = Budget(enterName, enterAmount, )
+        val account = Budget(enterName, enterAmount )
 
         database.child(accountId).setValue(account)
             .addOnCompleteListener {
@@ -113,33 +103,40 @@ class budget : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Clear the container first
                 budgetListContainer.removeAllViews()
-                // Loop through the children of the snapshot
-                for (budgetSnapshot in snapshot.children) {
-                    // Get the budget object from Firebase
-                    val budget = budgetSnapshot.getValue(Budget2::class.java)
+                try {
+                    // Loop through the children of the snapshot
+                    for (budgetSnapshot in snapshot.children) {
+                        // Get the budget object from Firebase
+                        val budget = budgetSnapshot.getValue(Budget2::class.java)
 
-                    // If budget is not null, inflate the budget_item.xml layout
-                    if (budget != null) {
-                        val budgetItemView = layoutInflater.inflate(R.layout.budget_item, null)
-                        val budgetId = budgetSnapshot.key
-                        // Find and set the TextViews for budget name and balance
-                        val budgetNameText = budgetItemView.findViewById<TextView>(R.id.BudgetName)
-                        val budgetBalanceText = budgetItemView.findViewById<TextView>(R.id.BudgetValue)
-                        val binImageView = budgetItemView.findViewById<ImageView>(R.id.bin)
+                        // If budget is not null, inflate the budget_item.xml layout
+                        if (budget != null) {
+                            val budgetItemView = layoutInflater.inflate(R.layout.budget_item, null)
+                            val budgetId = budgetSnapshot.key
+                            // Find and set the TextViews for budget name and balance
+                            val budgetNameText =
+                                budgetItemView.findViewById<TextView>(R.id.BudgetName)
+                            val budgetBalanceText =
+                                budgetItemView.findViewById<TextView>(R.id.BudgetValue)
+                            val binImageView = budgetItemView.findViewById<ImageView>(R.id.bin)
 
-                        budgetNameText.text = budget.name
-                        budgetBalanceText.text = budget.amount // Assuming the balance is in Rands
+                            budgetNameText.text = budget.name
+                            budgetBalanceText.text = budget.amount
 
-                        // Set an OnClickListener for the bin ImageView to delete the budget
-                        binImageView.setOnClickListener {
-                            if (budgetId != null) {
-                                // Confirm and delete the budget from the Firebase database
-                                deleteBudget(budgetId)
+                            // Set an OnClickListener for the bin ImageView to delete the budget
+                            binImageView.setOnClickListener {
+                                if (budgetId != null) {
+                                    // Confirm and delete the budget from the Firebase database
+                                    deleteBudget(budgetId)
+                                }
                             }
+                            // Add the inflated view to the LinearLayout
+                            budgetListContainer.addView(budgetItemView)
                         }
-                        // Add the inflated view to the LinearLayout
-                        budgetListContainer.addView(budgetItemView)
                     }
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    Toast.makeText(requireContext(), "Error loading budget item: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 

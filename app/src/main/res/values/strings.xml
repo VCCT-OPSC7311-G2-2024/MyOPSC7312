@@ -33,6 +33,7 @@
     <string name="budget_header">Make your Budget</string>
     <string name="submit">Submit</string>
     <string name="monthBudget">Monthly Budget</string>
+    <string name="home">Accounts</string>
     <string-array name="account_types">
         <item>Savings</item>
         <item>Checkings</item>

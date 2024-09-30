@@ -236,5 +236,90 @@
             android:layout_gravity="bottom"/>
     </FrameLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Footer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/footer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="1">
+
+        <FrameLayout
+            android:id="@+id/ConverterNavigator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="65dp"
+            app:layout_constraintStart_toStartOf="@id/Footer"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/converter_icon" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="@string/converter"
+                android:layout_marginTop="30dp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ProfilerNavigator"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="65dp"
+            app:layout_constraintEnd_toEndOf="@id/Footer"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/profile_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/profile"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="30dp"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/HomeNavigator"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivHome"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/home_icon"
+                android:tint="@color/black"/>
+
+            <TextView
+                android:id="@+id/txtHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/home"
+                android:layout_marginTop="30dp"/>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

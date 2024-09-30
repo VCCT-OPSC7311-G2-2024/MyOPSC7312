@@ -2,6 +2,8 @@ package com.example.myopsc7312
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.InputFilter
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +22,6 @@ import com.google.firebase.database.ValueEventListener
 
 class Expenses : Fragment() {
     //variables for the fragment
-    var currentUserId = "";
     private var currentAccountId = "";
 
     //Firebase database reference
@@ -30,7 +31,6 @@ class Expenses : Fragment() {
     private lateinit var namefield: EditText
     private lateinit var amountfield: EditText
     private lateinit var expenseListContainer: LinearLayout
-    private lateinit var submitBtn: Button
 
 
     override fun onCreateView(
@@ -38,17 +38,11 @@ class Expenses : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        return  inflater.inflate(R.layout.fragment_expenses, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        val view = inflater.inflate(R.layout.fragment_expenses, container, false)
         //initializing the UI components
         namefield = view.findViewById(R.id.namePrompt)
         amountfield = view.findViewById(R.id.expenseField)
         expenseListContainer = view.findViewById(R.id.expenseListContainer)
-        submitBtn = view.findViewById(R.id.submitBtn)
 
         // Retrieve the accountId from arguments
         currentAccountId = arguments?.getString("accountId").toString()
@@ -57,11 +51,23 @@ class Expenses : Fragment() {
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference("accounts/$currentAccountId/expenses")
 
+        val submitBtn = view.findViewById<Button>(R.id.submitBtn)
         //setting the onclick listener for the submit button
         submitBtn.setOnClickListener {
             saveData()
-            loadExpenses()
         }
+
+        val filter = InputFilter { source, _, _, _, _, _ ->
+            for (i in source.indices) {
+                if (!source[i].isLetter()) {
+                    return@InputFilter ""  // Block anything that is not a letter
+                }
+            }
+            null
+        }
+        namefield.filters = arrayOf(filter)
+        loadExpenses()
+        return view
     }
 
     private fun saveData() {
@@ -73,10 +79,14 @@ class Expenses : Fragment() {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
+        if(amount == "0" || amount.toLong() < 0){
+            Toast.makeText(requireContext(), "Please enter a valid amount", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         //creates key  for expense
         val expenseId = database.push().key!!
-        val expenseObj = Expense(name, amount)
+        val expenseObj = Expense(amount.toLong(), name)
 
         database.child(expenseId).setValue(expenseObj)
             .addOnCompleteListener {
@@ -89,48 +99,65 @@ class Expenses : Fragment() {
             }
     }
 
+    // Function to load expenses from Firebase and display them
     private fun loadExpenses() {
-        // Retrieve expense from Firebase
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // Clear the container first
                 expenseListContainer.removeAllViews()
-                // Loop through the children of the snapshot
+
                 for (expenseSnapshot in snapshot.children) {
-                    // Get the expense object from Firebase
+                    // Log the snapshot to debug
+                    Log.d("FirebaseData", expenseSnapshot.toString())
+                    try{
+                    // Attempt to deserialize into the Expense class
                     val expense = expenseSnapshot.getValue(Expense::class.java)
 
-                    // If expense is not null, inflate the expense_item.xml layout
                     if (expense != null) {
-                        val expenseItemView = layoutInflater.inflate(R.layout.expense_item, expenseListContainer, false)
+                        try {
+                            // Inflate the layout for the expense item
+                            val expenseItemView = layoutInflater.inflate(R.layout.expense_item, expenseListContainer, false)
+                            val expenseId = expenseSnapshot.key
+                            // Find and bind the views
+                            val expenseNameText = expenseItemView.findViewById<TextView>(R.id.SavingsText)
+                            val expenseAmountText = expenseItemView.findViewById<TextView>(R.id.SavingsValue)
+                            val binImageView = expenseItemView.findViewById<ImageView>(R.id.expenseBin)
 
-                        val expenseId = expenseSnapshot.key
-                        // Find and set the TextViews for expense name and balance
-                        val expenseNameText = expenseItemView.findViewById<TextView>(R.id.SavingsText)
-                        val expenseBalanceText = expenseItemView.findViewById<TextView>(R.id.SavingsValue)
-                        val binImageView = expenseItemView.findViewById<ImageView>(R.id.expenseBin)
+                            // Set the expense data to the views
+                            expenseNameText.text = expense.name
+                            expenseAmountText.text = expense.amount.toString()
 
-                        expenseNameText.text = expense.name
-                        expenseBalanceText.text = expense.amount
-
-                        // Set an OnClickListener for the bin ImageView to delete the expense
-                        binImageView.setOnClickListener {
-                            if (expenseId != null) {
-                                // Confirm and delete the expense from the Firebase database
-                                deleteExpense(expenseId)
+                            // Set an OnClickListener for the bin ImageView to delete the budget
+                            binImageView.setOnClickListener {
+                                if (expenseId != null) {
+                                    // Confirm and delete the budget from the Firebase database
+                                    deleteExpense(expenseId)
+                                }
                             }
+
+                            // Add the view to the container
+                            expenseListContainer.addView(expenseItemView)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Toast.makeText(requireContext(), "Error loading expense item: ${e.message}", Toast.LENGTH_SHORT).show()
                         }
-                        // Add the inflated view to the LinearLayout
-                        expenseListContainer.addView(expenseItemView)
+                    } else {
+                        Log.e("FirebaseData", "Expense is null or not deserialized correctly")
+                        Toast.makeText(requireContext(), "Invalid expense data", Toast.LENGTH_SHORT).show()
                     }
+                }catch (e: Exception) {
+                        e.printStackTrace()
+                        Toast.makeText(requireContext(), "Error loading expense item: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
+                    }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Handle potential errors
-            }
-        })
+                Toast.makeText(requireContext(), "Failed to load expenses", Toast.LENGTH_SHORT).show()
+                }
+            })
     }
+
+
     private fun deleteExpense(accountId: String) {
         // Reference to the expense in the database
         val expenseRef = database.child(accountId)
@@ -161,5 +188,5 @@ class Expenses : Fragment() {
                 }
                 }
 }
-    data class Expense( val name: String = "", val amount: String ="")
+    data class Expense( val amount:Long=0,val name: String = "")
 }
