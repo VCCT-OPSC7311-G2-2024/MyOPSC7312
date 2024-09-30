@@ -17,6 +17,16 @@
 
 With features like customizable expense categories, budgeting tools, and detailed financial reports, Penny-Wise helps users stay on top of their finances, set financial goals, and make better decisions. 
 
+## Demonstration Video
+
+# Download Link
+https://drive.google.com/file/d/1N95LonkW_Tg9IjnOammCMxqPRS4y27Rv/view?usp=sharing
+
+# Watch Through YouTube Link
+https://youtu.be/ZaSv4A6l5G8
+
+---
+
 ### Key Features
 - **Add Expenses**: Easily input expense details, including the name and amount.
 - **View Expenses**: A list view displaying all added expenses.
