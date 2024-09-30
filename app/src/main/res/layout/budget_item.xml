@@ -42,6 +42,14 @@
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:id="@+id/bin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="280dp"
+                android:src="@drawable/baseline_restore_from_trash_24" />
+
         </FrameLayout>
     </FrameLayout>
 

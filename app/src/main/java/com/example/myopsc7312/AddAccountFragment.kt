@@ -35,7 +35,7 @@ class AddAccountFragment : Fragment() {
 
         // Reference to AutoCompleteTextView
         val accountTypeDropdown: AutoCompleteTextView = view.findViewById(R.id.autoCompleteText)
-        val accountTypes = resources.getStringArray(R.array.acount_types)
+        val accountTypes = resources.getStringArray(R.array.account_types)
         // Create an ArrayAdapter using the accountTypes list
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, accountTypes)
         // Set the adapter to the AutoCompleteTextView
@@ -69,9 +69,14 @@ class AddAccountFragment : Fragment() {
         val enterBalance = accountBalance.text.toString().trim()
         val enterType = accountType.text.toString().trim()
 
+
         // Simple validation
         if (enterName.isEmpty() || enterBalance.isEmpty() || enterType.isEmpty()) {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (enterBalance.toDoubleOrNull() == null || enterBalance.toDouble() < 0) {
+            Toast.makeText(requireContext(), "Please enter a valid balance", Toast.LENGTH_SHORT).show()
             return
         }
         // Navigate to the Accounts page

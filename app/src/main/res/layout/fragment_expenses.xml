@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".budget">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Expenses">
 
     <LinearLayout
         android:id="@+id/Background"
@@ -15,33 +15,28 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-199dp">
 
+        <FrameLayout
+            android:id="@+id/headerBackground"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:alpha="0.6"
+            android:background="@color/light_dark_green">
+
+        </FrameLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/footer"
-        android:text="@string/back"
-        android:textColor="@color/blockGreen"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerBackgroundContainer" />
-
     <TextView
-        android:id="@+id/BudgetHeading"
+        android:id="@+id/ExpenseHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/budget_header"
+        android:layout_margin="16dp"
+        android:text="Log expenses here "
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnBack" />
+        app:layout_constraintTop_toBottomOf="@+id/headerBackgroundContainer" />
+
     <FrameLayout
         android:id="@+id/headerBackgroundContainer"
         android:layout_width="match_parent"
@@ -50,22 +45,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <FrameLayout
-            android:id="@+id/headerBackground"
-            android:layout_width="match_parent"
-            android:layout_height="43dp"
-            android:alpha="0.6"
-            android:background="@color/headerGreen">
-
-        </FrameLayout>
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
-            android:text="@string/budget_header_text"
+            android:text="log expense"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -83,10 +69,10 @@
     <FrameLayout
         android:id="@+id/inputFields"
         android:layout_width="250dp"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="@+id/Background"
-        app:layout_constraintTop_toBottomOf="@+id/BudgetHeading">
+        app:layout_constraintTop_toBottomOf="@+id/ExpenseHeading">
 
         <TextView
             android:id="@+id/Name"
@@ -95,20 +81,22 @@
             android:layout_gravity="top"
             android:layout_marginTop="10dp"
             android:text="Name:"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black" />
 
         <EditText
-            android:id="@+id/enterName"
+            android:id="@+id/namePrompt"
             android:layout_width="150dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginStart="60dp"
-            android:autofillHints="E.g. Groceries"
             android:background="@drawable/shape_2"
             android:hint="E.g. Groceries"
+            android:autofillHints="E.g. Groceries"
             android:inputType="text"
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
+
 
         <TextView
             android:id="@+id/Amount"
@@ -117,18 +105,19 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
             android:text="Amount:"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
         <EditText
-            android:id="@+id/enterBudget"
+            android:id="@+id/expenseField"
             android:layout_width="150dp"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginStart="60dp"
-            android:autofillHints="E.g. 2000"
+            android:inputType="numberDecimal"
             android:background="@drawable/shape_2"
+            android:autofillHints="E.g. Groceries"
             android:hint="E.g. 2000"
-            android:inputType="number"
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
 
@@ -143,7 +132,7 @@
         app:layout_constraintTop_toBottomOf="@+id/inputFields">
 
         <LinearLayout
-            android:id="@+id/budgetListContainer"
+            android:id="@+id/expenseListContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -154,18 +143,15 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btnSubmit"
-        android:layout_width="150dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="@color/blockGreen"
-        android:text="@string/submit"
-        android:textSize="20sp"
+        android:id="@+id/submitBtn"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/light_dark_green"
+        android:text="submit"
         app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountScrollView" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

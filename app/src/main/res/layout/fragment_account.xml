@@ -153,7 +153,7 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:textColor="@color/white"
-                android:text="@string/liabilities_value"
+                android:text="@string/assets_value"
                 android:layout_marginTop="33dp"
                 android:layout_marginStart="25dp"/>
 

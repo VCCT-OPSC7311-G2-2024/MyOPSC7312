@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -74,6 +76,7 @@ class AccountFragment : Fragment() {
                         // Find and set the TextViews for account name and balance
                         val accountNameText = accountItemView.findViewById<TextView>(R.id.SavingsText)
                         val accountBalanceText = accountItemView.findViewById<TextView>(R.id.SavingsValue)
+                        val binImageView = accountItemView.findViewById<ImageView>(R.id.bin)
 
                         accountNameText.text = account.name
                         accountBalanceText.text = "R " + account.balance // Assuming the balance is in Rands
@@ -81,7 +84,15 @@ class AccountFragment : Fragment() {
                         // Set an OnClickListener for the account item
                         accountItemView.setOnClickListener {
                             if (accountId != null) {
-                                openBudgetFragment(accountId)
+                                openAnyliticsFragment(accountId)
+                            }
+                        }
+
+                        // Set an OnClickListener for the bin ImageView to delete the account
+                        binImageView.setOnClickListener {
+                            if (accountId != null) {
+                                // Confirm and delete the account from the Firebase database
+                                deleteAccount(accountId)
                             }
                         }
 
@@ -101,20 +112,40 @@ class AccountFragment : Fragment() {
         })
     }
 
-    private fun openBudgetFragment(accountId: String) {
-        val fragment = budget()
+    private fun openAnyliticsFragment(accountId: String) {
+        val fragment = Anylitics()
 
         // Create a bundle to pass the accountId to the fragment
         val bundle = Bundle()
         bundle.putString("accountId", accountId)
         fragment.arguments = bundle
 
-        // Navigate to the fragment_budget
+        // Navigate to the fragment
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment) // Replace with your container ID
             .addToBackStack(null)
             .commit()
     }
+
+
+    private fun deleteAccount(accountId: String) {
+        // Reference to the account in the database
+        val accountRef = database.child(accountId)
+
+        // Remove the account from the database
+        accountRef.removeValue().addOnSuccessListener {
+            // Account successfully deleted, you can display a success message or toast
+            showToast("Account deleted successfully")
+        }.addOnFailureListener {
+            // Failed to delete the account, handle the error
+            showToast("Failed to delete account")
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
 
 
     // Account data class
