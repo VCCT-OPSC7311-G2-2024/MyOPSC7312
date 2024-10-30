@@ -1,6 +1,10 @@
 package com.example.myopsc7312
 
 import android.content.Intent
+import android.content.SharedPreferences
+import androidx.biometric.BiometricPrompt
+//import android.hardware.biometrics.BiometricPrompt
+import androidx.core.content.ContextCompat
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -19,6 +23,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var regButton: Button
     private lateinit var myTextView: TextView
     private lateinit var database: DatabaseReference
+    private lateinit var sharedPreferences: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +40,9 @@ class RegisterActivity : AppCompatActivity() {
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
+
+        // Initialize shared preferences for local storage
+        sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
 
         // Set up register button click listener
         regButton.setOnClickListener {
@@ -107,4 +116,51 @@ class RegisterActivity : AppCompatActivity() {
         Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
     }
     //data class User(val email: String, val password: String)
+
+    private fun setupBiometricPrompt(){
+        val biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
+            object : BiometricPrompt.AuthenticationCallback(){
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    super.onAuthenticationSucceeded(result)
+                    val userId = getIdFromLocalStorage()
+                    if (userId != null){
+                       //method cal
+                        accessUserId(userId)
+                    }else{
+                    Toast.makeText(this@RegisterActivity, "User ID not found", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+
+        val promptInfo =BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric Login")
+            .setSubtitle("Login using your fingerprint")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    private fun accessUserId(userId: String) {
+        database.child("users").child(userId).get().addOnSuccessListener { dataSnapshot ->
+            if (dataSnapshot.exists()) {
+                val user = dataSnapshot.getValue(User::class.java)
+                Toast.makeText(this, "Welcome back, ${user?.email}", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "User not found in the database", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun saveIdFromLocalStorage(userId: String){
+        sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("userId", userId)
+        editor.apply()
+    }
+
+    private fun getIdFromLocalStorage(): String? {
+        sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("userId", null)
+    }
 }
