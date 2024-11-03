@@ -1,14 +1,20 @@
 package com.example.myopsc7312
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import com.google.firebase.database.*
+import java.util.concurrent.Executor
 
 
 class LoginActivity : AppCompatActivity() {
@@ -20,6 +26,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var signUpTextView: TextView
     private lateinit var forgotPasswordTextView: TextView
     private lateinit var database: DatabaseReference
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
+    private  lateinit var biometricsBtn: ImageButton
+    private var biometricSupport = false
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,9 +43,15 @@ class LoginActivity : AppCompatActivity() {
         loginButton = findViewById(R.id.regButton)
         signUpTextView = findViewById(R.id.textView3)
         forgotPasswordTextView = findViewById(R.id.textView4)
+        biometricsBtn = findViewById(R.id.imageButton2)
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference.child("users")
+
+        // Check if biometric is supported and set it up
+        if (checkBiometricSupport()) {
+            biometricSupport = true
+        }
 
         // Handle login button click
         loginButton.setOnClickListener {
@@ -54,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
             loginUser(email, password)
         }
 
+
         // Handle sign up click
         signUpTextView.setOnClickListener {
             // Navigate to Sign Up Activity
@@ -68,7 +86,19 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, ForgotPassword::class.java)
             startActivity(intent)
         }
+
+        // Handle biometrics button click
+        biometricsBtn.setOnClickListener {
+            if (biometricSupport == true) {
+                performBiometricLogin()
+            }else {
+                Toast.makeText(this, "Biometric authentication not supported", Toast.LENGTH_LONG).show()
+            }
+        }
     }
+
+    //-------------------------------------------------------------------------------------------
+    //Traditional login
     private fun loginUser(email: String, password: String) {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -102,6 +132,69 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    //-------------------------------------------------------------------------------------------
+    //Biometric login
+    private fun performBiometricLogin() {
+        executor = ContextCompat.getMainExecutor(this)
+        biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
+            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                val userId = getIdFromLocalStorage()
+                if (userId != null) {
+                    // Notify user of successful login
+                    val notificationHelper = NotificationHelper(this@LoginActivity)
+                    notificationHelper.createNotification("Biometric Login", "Login successful!")
+                    // Navigate to Home or Dashboard and pass the userId
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    intent.putExtra("userUid", userId) // Pass userId to the next activity
+                    startActivity(intent)
+                    finish() // Optionally close login screen
+                } else {
+                    Toast.makeText(this@LoginActivity, "Register user first", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                Toast.makeText(this@LoginActivity, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onAuthenticationFailed() {
+                Toast.makeText(this@LoginActivity, "Authentication failed", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        showBiometricPrompt()
+    }
+
+    //-------------------------------------------------------------------------------------------
+    //get user id from local storage
+    private fun getIdFromLocalStorage(): String? {
+        // Retrieve user ID from local storage (e.g. SharedPreferences)
+        sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("userId", null)
+    }
+
+
+    //-------------------------------------------------------------------------------------------
+    //Biometric prompt
+    private fun showBiometricPrompt() {
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric Login")
+            .setSubtitle("Log in using your biometric credential")
+            .setNegativeButtonText("Use account password")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    //-------------------------------------------------------------------------------------------
+    //Check biometric support
+    private fun checkBiometricSupport(): Boolean {
+        val biometricManager = BiometricManager.from(this)
+        return when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> true
+            else -> false
+        }
+    }
 
    // data class User(val email: String = "", val password: String = "")
 }
