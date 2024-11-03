@@ -1,6 +1,7 @@
 package com.example.myopsc7312
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.os.Bundle
 import android.text.InputFilter
 import android.util.Log
@@ -24,6 +25,7 @@ class Expenses : Fragment() {
     //variables for the fragment
     private lateinit var userUid: String
     private var currentAccountId = "";
+    private lateinit var databaseHelper: DatabaseHelper
 
     //Firebase database reference
     private lateinit var database: DatabaseReference
@@ -44,6 +46,11 @@ class Expenses : Fragment() {
         namefield = view.findViewById(R.id.namePrompt)
         amountfield = view.findViewById(R.id.expenseField)
         expenseListContainer = view.findViewById(R.id.expenseListContainer)
+        // Initialize Firebase Database
+        database = FirebaseDatabase.getInstance().getReference("accounts/$currentAccountId/expenses")
+
+        // Initialize SQLite Database Helper
+        databaseHelper = DatabaseHelper(requireContext())
 
         // Retrieve the accountId from arguments
         currentAccountId = arguments?.getString("accountId").toString()
@@ -107,6 +114,8 @@ class Expenses : Fragment() {
         val expenseId = database.push().key!!
         val expenseObj = Expense(amount.toLong(), name)
 
+        if (NetworkUtil.isNetworkAvailable(requireContext())) {
+            // Save to Firebase
         database.child(expenseId).setValue(expenseObj)
             .addOnCompleteListener {
                 // Success message
@@ -116,6 +125,29 @@ class Expenses : Fragment() {
                 // Failure message
                 Toast.makeText(requireContext(), "Failed to add expense", Toast.LENGTH_SHORT).show()
             }
+        } else {
+            // Save to SQLite
+            val values = ContentValues().apply {
+                put("expense_id", expenseId)
+                put("account_id", "some_account_id") // Replace with actual account ID
+                put("amount", amount.toLong())
+                put("name", name)
+                put("synced", 0)
+            }
+            databaseHelper.insertExpense(expenseId, currentAccountId, amount.toDouble(), name)
+            Toast.makeText(requireContext(), "Expense saved locally", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Sync unsynced expenses when network is available
+    private fun syncUnsyncedExpenses() {
+        val syncManager = SyncManager(requireContext().applicationContext)
+        syncManager.syncSQLiteToFirebase(requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncUnsyncedExpenses()
     }
 
     // Function to load expenses from Firebase and display them

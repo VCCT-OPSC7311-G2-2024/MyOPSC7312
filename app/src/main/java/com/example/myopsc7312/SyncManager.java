@@ -16,6 +16,11 @@ import com.google.firebase.database.DatabaseError;
 public class SyncManager {
     private DatabaseHelper databaseHelper;
     private DatabaseReference databaseReference;
+    private static final String ACCOUNT_ID = "account_id";
+    private static final String USER_ID = "user_id";
+    private static final String BALANCE = "balance";
+    private static final String NAME = "name";
+    private static final String TYPE = "type";
 
 
     public SyncManager(Context context) {
@@ -65,25 +70,77 @@ public class SyncManager {
         });
     }
 
-
-    private class SaveDataTask extends AsyncTask<DataSnapshot, Void, Void> {
-        @Override
-        protected Void doInBackground(DataSnapshot... dataSnapshots) {
-            DataSnapshot dataSnapshot = dataSnapshots[0];
-            for (DataSnapshot accountSnapshot : dataSnapshot.getChildren()) {
-                String accountId = accountSnapshot.getKey();
-                String userId = accountSnapshot.child("user_id").getValue(String.class);
-                double balance = accountSnapshot.child("balance").getValue(Double.class);
-                String name = accountSnapshot.child("name").getValue(String.class);
-                String type = accountSnapshot.child("type").getValue(String.class);
-
-                // Insert account data into SQLite
-                try {
-                    databaseHelper.insertAccount(accountId, userId, balance, name, type);
-                } catch (Exception e) {
-                    // Handle insertion error
-                    e.printStackTrace();
+    public void syncSQLiteToFirebase(Context context) {
+        if (NetworkUtil.isNetworkAvailable(context)) {
+            // Sync accounts
+            Cursor accountCursor = databaseHelper.getAllUnsyncedAccounts();
+            Cursor expenseCursor = databaseHelper.getAllUnsyncedExpenses();
+            while (accountCursor.moveToNext()) {
+                int accountIdIndex = accountCursor.getColumnIndex(ACCOUNT_ID);
+                int userIdIndex = accountCursor.getColumnIndex(USER_ID);
+                int balanceIndex = accountCursor.getColumnIndex(BALANCE);
+                int nameIndex = accountCursor.getColumnIndex(NAME);
+                int typeIndex = accountCursor.getColumnIndex(TYPE);
+                if (accountIdIndex != -1 && userIdIndex != -1 && balanceIndex != -1 && nameIndex != -1 && typeIndex != -1) {
+                    String accountId = accountCursor.getString(accountIdIndex);
+                    String userId = accountCursor.getString(userIdIndex);
+                    double balance = accountCursor.getDouble(balanceIndex);
+                    String name = accountCursor.getString(nameIndex);
+                    String type = accountCursor.getString(typeIndex);
+                    accountCursor.close();
+                    expenseCursor.close();
+                    new SaveDataTask().execute(accountCursor);
                 }
+                if (accountIdIndex != -1 && userIdIndex != -1 && balanceIndex != -1 && nameIndex != -1 && typeIndex != -1) {
+                    String accountId = accountCursor.getString(accountIdIndex);
+                    String userId = accountCursor.getString(userIdIndex);
+                    double balance = accountCursor.getDouble(balanceIndex);
+                    String name = accountCursor.getString(nameIndex);
+                    String type = accountCursor.getString(typeIndex);
+                    accountCursor.close();
+                    int amountIndex = expenseCursor.getColumnIndex("amount");
+                    int expenseIdIndex = expenseCursor.getColumnIndex("expense_id");
+                    if (amountIndex != -1 && nameIndex != -1 && expenseIdIndex != -1) {
+                        ContentValues expenseValues = new ContentValues();
+                        expenseValues.put("amount", expenseCursor.getDouble(amountIndex));
+                        expenseValues.put("name", expenseCursor.getString(nameIndex));
+                        String expenseId = expenseCursor.getString(expenseIdIndex);
+
+                        databaseHelper.updateExpense(expenseId, expenseValues);
+                    }
+                }
+                expenseCursor.close();
+            }
+        }
+    }
+
+
+    private class SaveDataTask extends AsyncTask<Cursor, Void, Void> {
+        @Override
+        protected Void doInBackground(Cursor... cursors) {
+            Cursor cursor = cursors[0];
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    int accountIdIndex = cursor.getColumnIndex(ACCOUNT_ID);
+                    int userIdIndex = cursor.getColumnIndex(USER_ID);
+                    int balanceIndex = cursor.getColumnIndex(BALANCE);
+                    int nameIndex = cursor.getColumnIndex(NAME);
+                    int typeIndex = cursor.getColumnIndex(TYPE);
+
+                    try {
+                    if (accountIdIndex != -1 && userIdIndex != -1 && balanceIndex != -1 && nameIndex != -1 && typeIndex != -1) {
+                        String accountId = cursor.getString(accountIdIndex);
+                        String userId = cursor.getString(userIdIndex);
+                        double balance = cursor.getDouble(balanceIndex);
+                        String name = cursor.getString(nameIndex);
+                        String type = cursor.getString(typeIndex);
+                        databaseHelper.insertAccount(accountId, userId, balance, name, type);
+                    }
+                    } catch (Exception e) {
+                        // Handle insertion error
+                        e.printStackTrace();
+                    }
+                } while (cursor.moveToNext());
             }
             return null;
         }

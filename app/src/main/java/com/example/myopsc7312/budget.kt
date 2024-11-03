@@ -1,5 +1,6 @@
 package com.example.myopsc7312
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
@@ -28,6 +29,7 @@ class budget : Fragment() {
     private lateinit var budgetListContainer: LinearLayout
     private lateinit var accountUid: String
     private lateinit var userUid: String
+    private lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +48,9 @@ class budget : Fragment() {
 
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().getReference("accounts/$accountUid/budgets")
+
+        // Initialize DatabaseHelper
+        databaseHelper = DatabaseHelper(requireContext())
 
         val btnBack = view.findViewById<Button>(R.id.btnBack)
         btnBack.setOnClickListener {
@@ -97,18 +102,30 @@ class budget : Fragment() {
             return
         }
 
-        val accountId = database.push().key!!
-        val account = Budget(enterName, enterAmount )
+        val budgetId = database.push().key!!
+        val budget = Budget(enterName, enterAmount)
 
-        database.child(accountId).setValue(account)
-            .addOnCompleteListener {
-                // Success message
-                Toast.makeText(requireContext(), "Budget added successfully", Toast.LENGTH_SHORT).show()
+        if (NetworkUtil.isNetworkAvailable(requireContext())) {
+            // Save to Firebase
+            database.child(budgetId).setValue(budget)
+                .addOnCompleteListener {
+                    Toast.makeText(requireContext(), "Budget added successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Failed to add budget", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            // Save to SQLite
+            val values = ContentValues().apply {
+                put("budget_id", budgetId)
+                put("account_id", accountUid)
+                put("amount", enterAmount.toDouble())
+                put("name", enterName)
+                put("synced", 0)
             }
-            .addOnFailureListener {
-                // Failure message
-                Toast.makeText(requireContext(), "Failed to add budget", Toast.LENGTH_SHORT).show()
-            }
+            databaseHelper.insertBudget(budgetId, accountUid, enterAmount.toDouble(), enterName)
+            Toast.makeText(requireContext(), "Budget saved locally", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun loadBudgets() {
@@ -176,6 +193,18 @@ class budget : Fragment() {
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+
+    // Sync unsynced budgets when network is available
+    private fun syncUnsyncedBudgets() {
+        val syncManager = SyncManager(requireContext())
+        syncManager.syncSQLiteToFirebase(requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncUnsyncedBudgets()
     }
 
     // Account data class

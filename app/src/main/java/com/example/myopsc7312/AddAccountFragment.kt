@@ -1,6 +1,7 @@
 package com.example.myopsc7312
 
 import android.accounts.Account
+import android.content.ContentValues
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ class AddAccountFragment : Fragment() {
     private lateinit var accountType:AutoCompleteTextView
     private lateinit var database: DatabaseReference
     private lateinit var userUid: String // Store user UID
+    private lateinit var databaseHelper: DatabaseHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,10 @@ class AddAccountFragment : Fragment() {
         accountName = view.findViewById(R.id.EnterName)
         accountBalance = view.findViewById(R.id.enterBalance)
         accountType = view.findViewById(R.id.autoCompleteText)
+
+        // Initialize DatabaseHelper
+        databaseHelper = DatabaseHelper(requireContext())
+
 
         val btnCancel = view?.findViewById<Button>(R.id.btnCancel)
         btnCancel?.setOnClickListener {
@@ -79,23 +85,48 @@ class AddAccountFragment : Fragment() {
             Toast.makeText(requireContext(), "Please enter a valid balance", Toast.LENGTH_SHORT).show()
             return
         }
+        // Create key for account
+        val accountId = database.push().key!!
+        val account = Account(enterBalance, enterName, enterType)
+
+        if (NetworkUtil.isNetworkAvailable(requireContext())) {
+            // Save to Firebase
+            database.child(accountId).setValue(account)
+                .addOnCompleteListener {
+                    Toast.makeText(requireContext(), "Account added successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Failed to add account", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            // Save to SQLite
+            val values = ContentValues().apply {
+                put("account_id", accountId)
+                put("user_id", userUid)
+                put("balance", enterBalance.toDouble())
+                put("name", enterName)
+                put("type", enterType)
+                put("synced", 0)
+            }
+            databaseHelper.insertAccount(accountId, userUid, enterBalance.toDouble(), enterName, enterType)
+            Toast.makeText(requireContext(), "Account saved locally", Toast.LENGTH_SHORT).show()
+        }
+
         // Navigate to the Accounts page
         val fragment = AccountFragment()
         val transaction = fragmentManager?.beginTransaction()
         transaction?.replace(R.id.fragment_container, fragment)?.commit()
+    }
 
-        val accountId = database.push().key!!
-        val account = Account( enterBalance,enterName, enterType)
+    // Sync unsynced accounts when network is available
+    private fun syncUnsyncedAccounts() {
+        val syncManager = SyncManager(requireContext())
+        syncManager.syncSQLiteToFirebase(requireContext())
+    }
 
-        database.child(accountId).setValue(account)
-            .addOnCompleteListener {
-                // Success message
-                Toast.makeText(requireContext(), "Account added successfully", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                // Failure message
-                Toast.makeText(requireContext(), "Failed to add account", Toast.LENGTH_SHORT).show()
-            }
+    override fun onResume() {
+        super.onResume()
+        syncUnsyncedAccounts()
     }
     data class Account(  val balance: String, val name: String, val type: String)
 }

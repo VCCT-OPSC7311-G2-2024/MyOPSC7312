@@ -1,5 +1,6 @@
 package com.example.myopsc7312
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -34,5 +35,10 @@ class HomeActivity : AppCompatActivity() {
                 .replace(R.id.fragment_container, accountFragment)
                 .commit()
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        val syncManager = SyncManager(this)
+        syncManager.syncSQLiteToFirebase(this)
     }
 }

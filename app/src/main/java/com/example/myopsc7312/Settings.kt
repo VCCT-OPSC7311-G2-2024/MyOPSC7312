@@ -264,15 +264,12 @@ class Settings : Fragment() {
     }
 
 
-    // Handle online mode checkbox change
     private fun handleOnlineModeChange(isChecked: Boolean) {
         savePreference(KEY_ONLINE_MODE, isChecked)
-        // Logic for enabling or disabling online mode
         if (isChecked) {
-            // Enable online mode
             connectToNetwork()
+            syncUnsyncedData()
         } else {
-            // Disable online mode
             disconnectFromNetwork()
         }
     }
@@ -338,6 +335,12 @@ class Settings : Fragment() {
                     Toast.makeText(requireContext(), "Couldn't disable notifications", Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    // Sync unsynced data to Firebase
+    private fun syncUnsyncedData() {
+        val syncManager = SyncManager(requireContext())
+        syncManager.syncSQLiteToFirebase(requireContext())
     }
 
 }

@@ -165,4 +165,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_ACCOUNTS + " WHERE synced = 0", null);
     }
+
+    public void updateBudget(String budgetId, ContentValues values) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_BUDGETS, values, BUDGET_ID + " = ?", new String[]{budgetId});
+    }
+
+    public void updateExpense(String expenseId, ContentValues values) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_EXPENSES, values, EXPENSE_ID + " = ?", new String[]{expenseId});
+    }
+    public Cursor getAllUnsyncedExpenses() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM expenses WHERE synced = 0", null);
+    }
 }
