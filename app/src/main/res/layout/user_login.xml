@@ -59,9 +59,9 @@
             android:layout_width="356dp"
             android:layout_height="67dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/rounded_edittext"
+            android:background="@drawable/shape_2"
             android:drawableStart="@drawable/user_icon"
-            android:drawablePadding="10dp"
+            android:drawablePadding="16dp"
             android:hint="Email"
             android:inputType="textEmailAddress" />
 
@@ -69,7 +69,7 @@
             android:id="@+id/editTextPassword"
             android:layout_width="356dp"
             android:layout_height="67dp"
-            android:background="@drawable/rounded_edittext"
+            android:background="@drawable/shape_2"
             android:drawableStart="@drawable/key_icon"
             android:drawablePadding="10dp"
             android:ems="10"

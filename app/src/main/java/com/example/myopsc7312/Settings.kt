@@ -15,12 +15,14 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
+import androidx.appcompat.app.AppCompatDelegate
 
 
 class Settings : Fragment() {
@@ -56,6 +58,7 @@ class Settings : Fragment() {
         private const val PREFS_NAME = "MyAppPreferences"
         private const val KEY_NOTIFICATIONS_ENABLED = "notificationsEnabled"
         private const val KEY_ONLINE_MODE = "onlineMode"
+        private const val KEY_DARK_MODE = "darkModeEnabled"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,8 +81,10 @@ class Settings : Fragment() {
 
         initialiseUI(view)
         loadPreferences()
+        loadDarkModePreference()
         setupButtonListeners()
         setupCheckboxListeners()
+        setupDarkModeToggle()
 
         currentUserId = arguments?.getString("userUid").toString()
         Toast.makeText(requireContext(), currentUserId, Toast.LENGTH_SHORT).show()
@@ -167,6 +172,38 @@ class Settings : Fragment() {
         }
     }
 
+        private fun setupDarkModeToggle() {
+        val darkModeSwitch = view?.findViewById<Switch>(R.id.darkModeSwitch)
+        darkModeSwitch?.isChecked = isDarkModeEnabled()
+
+        darkModeSwitch?.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            saveDarkModePreference(isChecked)
+        }
+    }
+
+
+    private fun isDarkModeEnabled(): Boolean {
+        val currentMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        return currentMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
+    }
+
+    private fun saveDarkModePreference(isEnabled: Boolean) {
+        sharedPreferences.edit().putBoolean(KEY_DARK_MODE, isEnabled).apply()
+    }
+
+    private fun loadDarkModePreference() {
+        val isDarkMode = sharedPreferences.getBoolean(KEY_DARK_MODE, false)
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
+    }
 
     private fun languageChange(){
 

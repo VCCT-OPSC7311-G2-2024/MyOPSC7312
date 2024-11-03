@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:alpha="0.6"
-            android:background="@color/light_dark_green">
+            android:background="@color/headerGreen">
 
         </FrameLayout>
     </LinearLayout>
