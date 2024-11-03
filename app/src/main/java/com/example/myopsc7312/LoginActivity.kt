@@ -1,6 +1,7 @@
 package com.example.myopsc7312
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
@@ -28,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private  lateinit var biometricsBtn: ImageButton
+    private var biometricSupport = false
+    private lateinit var sharedPreferences: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,9 +50,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Check if biometric is supported and set it up
         if (checkBiometricSupport()) {
-            setUpBiometricPrompt()
-        } else {
-            Toast.makeText(this, "Biometric authentication not supported", Toast.LENGTH_SHORT).show()
+            biometricSupport = true
         }
 
         // Handle login button click
@@ -88,10 +89,16 @@ class LoginActivity : AppCompatActivity() {
 
         // Handle biometrics button click
         biometricsBtn.setOnClickListener {
-            showBiometricPrompt()
+            if (biometricSupport == true) {
+                performBiometricLogin()
+            }else {
+                Toast.makeText(this, "Biometric authentication not supported", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
+    //-------------------------------------------------------------------------------------------
+    //Traditional login
     private fun loginUser(email: String, password: String) {
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -125,14 +132,25 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
-    private fun setUpBiometricPrompt() {
+    //-------------------------------------------------------------------------------------------
+    //Biometric login
+    private fun performBiometricLogin() {
         executor = ContextCompat.getMainExecutor(this)
         biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                // User successfully authenticated
-                val email = emailEditText.text.toString().trim()
-                val password = passwordEditText.text.toString().trim()
-                loginUser(email, password) // Call your login method
+                val userId = getIdFromLocalStorage()
+                if (userId != null) {
+                    // Notify user of successful login
+                    val notificationHelper = NotificationHelper(this@LoginActivity)
+                    notificationHelper.createNotification("Biometric Login", "Login successful!")
+                    // Navigate to Home or Dashboard and pass the userId
+                    val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                    intent.putExtra("userUid", userId) // Pass userId to the next activity
+                    startActivity(intent)
+                    finish() // Optionally close login screen
+                } else {
+                    Toast.makeText(this@LoginActivity, "Register user first", Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
@@ -143,8 +161,21 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Authentication failed", Toast.LENGTH_SHORT).show()
             }
         })
+
+        showBiometricPrompt()
     }
 
+    //-------------------------------------------------------------------------------------------
+    //get user id from local storage
+    private fun getIdFromLocalStorage(): String? {
+        // Retrieve user ID from local storage (e.g. SharedPreferences)
+        sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("userId", null)
+    }
+
+
+    //-------------------------------------------------------------------------------------------
+    //Biometric prompt
     private fun showBiometricPrompt() {
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Biometric Login")
@@ -155,6 +186,8 @@ class LoginActivity : AppCompatActivity() {
         biometricPrompt.authenticate(promptInfo)
     }
 
+    //-------------------------------------------------------------------------------------------
+    //Check biometric support
     private fun checkBiometricSupport(): Boolean {
         val biometricManager = BiometricManager.from(this)
         return when (biometricManager.canAuthenticate()) {
@@ -162,7 +195,6 @@ class LoginActivity : AppCompatActivity() {
             else -> false
         }
     }
-
 
    // data class User(val email: String = "", val password: String = "")
 }

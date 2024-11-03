@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.google.firebase.messaging.ktx)
     implementation(libs.google.firebase.auth.ktx)
     implementation(libs.google.firebase.database.ktx)
-    //implementation(libs.androidx.biometric.ktx)
     implementation(libs.play.services.games.v2)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -62,6 +61,5 @@ dependencies {
     implementation(libs.gson)
     implementation(libs.androidx.biometric)
 
-    //implementation(libs.androidx.biometric)
 
 }

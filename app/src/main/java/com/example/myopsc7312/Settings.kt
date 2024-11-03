@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -136,7 +137,7 @@ class Settings : Fragment() {
 
     // Load saved preferences for checkboxes
     private fun loadPreferences() {
-        notificationCheckBox.isChecked = sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, false)
+        notificationCheckBox.isChecked = sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, true)
         onlineCheckBox.isChecked = sharedPreferences.getBoolean(KEY_ONLINE_MODE, false)
     }
 
@@ -207,7 +208,7 @@ class Settings : Fragment() {
             Toast.makeText(requireContext(), "Username  and password field empty", Toast.LENGTH_SHORT).show()
             return false
 
-        }else if(username.equals(originalEmail) || password.equals(originalPassword) ) {
+        }else if(username.equals(originalEmail) && password.equals(originalPassword) ) {
 
             Toast.makeText(requireContext(), "No changes made", Toast.LENGTH_SHORT).show()
             return false
@@ -246,9 +247,12 @@ class Settings : Fragment() {
                 // Update successful
                 Toast.makeText(requireContext(), "User data updated successfully", Toast.LENGTH_SHORT).show()
                 //send notification
-                if (PreferenceUtils.areNotificationsEnabled(requireContext())) {
+                if (notifications == true) {
                     val message = "Your profile has been updated"
-                    NotificationUtils.sendNotification("all", "Profile Update", message)
+                    Log.d("Notification", message)
+                    val notificationHelper = NotificationHelper(this.requireContext())
+                    notificationHelper.createNotification("Profile Update", message)
+                    //NotificationUtils.sendNotification("all", "Profile Update", message)
                 }
 
             }.addOnFailureListener { e ->

@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -24,6 +25,8 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var myTextView: TextView
     private lateinit var database: DatabaseReference
     private lateinit var sharedPreferences: SharedPreferences
+    private var biometricSupport = false
+    private var biometricState = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +46,14 @@ class RegisterActivity : AppCompatActivity() {
 
         // Initialize shared preferences for local storage
         sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
+
+        // Check if biometric is supported and set it up
+        if (checkBiometricSupport() ==true){
+            biometricSupport = true
+        }else
+        {
+            Toast.makeText(this, "Biometric authentication is not supported on this device", Toast.LENGTH_SHORT).show()
+        }
 
         // Set up register button click listener
         regButton.setOnClickListener {
@@ -104,9 +115,23 @@ class RegisterActivity : AppCompatActivity() {
                     etPassword.text.clear()
                     etConfirmPassword.text.clear()
 
-                    // Navigate to new activity
-                    val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
-                    startActivity(intent)
+                    if (biometricSupport == true){
+                        performBiometrics(userId, object : AuthenticationCallback {
+                            override fun onResult(success: Boolean) {
+                                if (success) {
+                                    biometricState = true
+                                }
+                            }
+                        })
+                    }
+
+                    //ensuring user can navigate even without biometric support
+                    if (biometricState == true || biometricSupport == false){
+                        // Navigate to new activity
+                        val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
+                        startActivity(intent)
+                    }
+
                 } else {
                     Toast.makeText(this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
                 }
@@ -117,28 +142,39 @@ class RegisterActivity : AppCompatActivity() {
     }
     //data class User(val email: String, val password: String)
 
-    private fun setupBiometricPrompt(){
+    private fun  performBiometrics(userId: String,callback: AuthenticationCallback) {
         val biometricPrompt = BiometricPrompt(this, ContextCompat.getMainExecutor(this),
             object : BiometricPrompt.AuthenticationCallback(){
+
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    val userId = getIdFromLocalStorage()
-                    if (userId != null){
-                       //method cal
-                        accessUserId(userId)
-                    }else{
-                    Toast.makeText(this@RegisterActivity, "User ID not found", Toast.LENGTH_SHORT).show()
-                    }
+                   //store userId
+                    saveIdLocalStorage(userId)
+                    callback.onResult(true)
                 }
+                override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                    Toast.makeText(this@RegisterActivity, "Authentication error: $errString", Toast.LENGTH_SHORT).show()
+                    callback.onResult(false)
+                }
+
+                override fun onAuthenticationFailed() {
+                    Toast.makeText(this@RegisterActivity, "Please apply finger correctly", Toast.LENGTH_SHORT).show()
+                    callback.onResult(false)
+                }
+
             })
 
-        val promptInfo =BiometricPrompt.PromptInfo.Builder()
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Biometric Login")
             .setSubtitle("Login using your fingerprint")
             .setNegativeButtonText("Cancel")
             .build()
 
         biometricPrompt.authenticate(promptInfo)
+    }
+
+    interface AuthenticationCallback {
+        fun onResult(success: Boolean)
     }
 
     private fun accessUserId(userId: String) {
@@ -152,7 +188,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveIdFromLocalStorage(userId: String){
+    private fun saveIdLocalStorage(userId: String){
         sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString("userId", userId)
@@ -162,5 +198,13 @@ class RegisterActivity : AppCompatActivity() {
     private fun getIdFromLocalStorage(): String? {
         sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE)
         return sharedPreferences.getString("userId", null)
+    }
+
+    private fun checkBiometricSupport(): Boolean {
+        val biometricManager = BiometricManager.from(this)
+        return when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> true
+            else -> false
+        }
     }
 }
