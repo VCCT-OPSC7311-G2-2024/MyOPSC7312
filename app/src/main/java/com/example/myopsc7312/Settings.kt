@@ -21,7 +21,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
-
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import java.util.Locale
 
 class Settings : Fragment() {
 
@@ -167,10 +169,38 @@ class Settings : Fragment() {
         }
     }
 
+    private fun languageChange() {
+        // Array of languages
+        val languages = arrayOf("English", "Tsonga", "Afrikaans")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = adapter
 
-    private fun languageChange(){
+        // Set up listener for language selection
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                when (position) {
+                    0 -> setLocale("en")  // English
+                    1 -> setLocale("ts")  // Tsonga
+                    2 -> setLocale("af")  // Afrikaans
+                }
+            }
 
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No action needed
+            }
+        }
+    }
+    // Method to change the locale
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
 
+        // Restart the fragment to apply the language change
+        parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
     }
 
 
