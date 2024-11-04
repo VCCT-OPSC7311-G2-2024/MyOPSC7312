@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Initialize DatabaseHelper and insert user data
         val dbHelper = DatabaseHelper(this)
-        dbHelper.insertUser("Umara2003@gmail.com", "UAhmed@123")
+        //dbHelper.insertUser("Umara2003@gmail.com", "UAhmed@123")
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_login)
