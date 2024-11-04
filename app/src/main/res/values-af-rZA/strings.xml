@@ -49,6 +49,17 @@
     <string name="submit">Dien in</string>
     <string name="monthBudget">Maandelikse Begroting</string>
     <string name="home">tuiste</string>
+    <string name="darkMode">Donker Modus</string>
+    <string name="login">Teken in</string>
+    <string name="email">E-pos</string>
+    <string name="forgot_psw">Het jou wagwoord vergeet?</string>
+    <string name="biometrics_signin">---------  of meld aan met vingerafdrukskandering   ---------</string>
+    <string name="noAccount">Het nie \'n rekening nie?</string>
+    <string name="signUp">Teken in</string>
+    <string name="conPass">Bevestig wagwoord</string>
+    <string name="register">Registreer</string>
+    <string name="signIn">---------   Teken in   ---------</string>
+    <string name="e.g.Groceries">bv. Kruideniersware</string>
     <string-array name="account_types">
         <item>Spaarrekening</item>
         <item>Lopende rekening</item>

@@ -15,15 +15,17 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Spinner
-import android.widget.Switch
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.RemoteMessage
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Switch
 import androidx.appcompat.app.AppCompatDelegate
-
+import java.util.Locale
 
 class Settings : Fragment() {
 
@@ -48,6 +50,7 @@ class Settings : Fragment() {
     private lateinit var onlineCheckBox: CheckBox
     private lateinit var languageSpinner: Spinner
     //Nav buttons
+    private lateinit var converterNavBtn: ImageButton
     private lateinit var homeNavBtn: ImageButton
     private lateinit var settingsNavBtn: ImageButton
 
@@ -80,10 +83,11 @@ class Settings : Fragment() {
 
         initialiseUI(view)
         loadPreferences()
-        loadDarkModePreference()
         setupButtonListeners()
         setupCheckboxListeners()
+        languageChange()
         setupDarkModeToggle()
+        loadDarkModePreference()
 
         currentUserId = arguments?.getString("userUid").toString()
         Toast.makeText(requireContext(), currentUserId, Toast.LENGTH_SHORT).show()
@@ -132,6 +136,7 @@ class Settings : Fragment() {
         languageSpinner = view.findViewById(R.id.languageSpinner)
 
         //nav buttons
+        //converterNavBtn = view.findViewById(R.id.currencyNavBtn)
         homeNavBtn = view.findViewById(R.id.homeNavBtn)
 
         // Initialize SharedPreferences
@@ -151,6 +156,11 @@ class Settings : Fragment() {
         editBtn.setOnClickListener { enableEditing() }
 
         //navigation functions
+        //converterNavBtn.setOnClickListener {
+         //   val intent = Intent(requireContext(), CurrencyConverterAPI::class.java)
+         //   intent.putExtra("userUid", currentUserId)
+         //   startActivity(intent)
+        //}
         homeNavBtn.setOnClickListener {
             // Create a Bundle to pass data
             val bundle = Bundle()
@@ -197,9 +207,58 @@ class Settings : Fragment() {
         return currentMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 
-    private fun languageChange(){
+    private fun languageChange() {
+        // Array of languages
+        val languages = arrayOf("English", "Tsonga", "Afrikaans")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        languageSpinner.adapter = adapter
 
+
+        // Load the saved language from SharedPreferences
+        val savedLanguageCode = sharedPreferences.getString("languageCode", "en")
+        val savedLanguagePosition = when (savedLanguageCode) {
+            "en" -> 0
+            "ts" -> 1
+            "af" -> 2
+            else -> 0
+        }
+        languageSpinner.setSelection(savedLanguagePosition)
+
+
+        // Set up listener for language selection
+        languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                when (position) {
+                    0 -> setLocale("en")  // English
+                    1 -> setLocale("ts")  // Tsonga
+                    2 -> setLocale("af")  // Afrikaans
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No action needed
+            }
+        }
     }
+    // Method to change the locale
+    private fun setLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+        val config = resources.configuration
+        config.setLocale(locale)
+        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+
+        // Save the selected language to SharedPreferences
+        with(sharedPreferences.edit()) {
+            putString("languageCode", languageCode)
+            apply()
+        }
+
+        // Restart the fragment to apply the language change
+        parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
+    }
+
 
     // Set up checkbox change listeners
     private fun setupCheckboxListeners() {
@@ -252,13 +311,16 @@ class Settings : Fragment() {
         notificationCheckBox.isEnabled = false
         onlineCheckBox.isEnabled = false
 
-        if(validateNewInputs(usernameField.text.toString(),passwordField.text.toString()) == true)
+        // Save the changes to the database
+        val username = usernameField.text.toString()
+        val password = passwordField.text.toString()
+        val newLanguage = languageSpinner.selectedItem.toString()
+
+        if(validateNewInputs(username, password) == true || newLanguage != getCurrentLanguage())
         {
-            // Save the changes to the database
-            val username = usernameField.text.toString()
-            val password = passwordField.text.toString()
             val notifications = notificationCheckBox.isChecked
             val onlineMode = onlineCheckBox.isChecked
+
 
             // Get the user reference
             val userRef = database.getReference("users").child(currentUserId)
@@ -294,6 +356,14 @@ class Settings : Fragment() {
         }
     }
 
+    private fun getCurrentLanguage(): String {
+        return when (Locale.getDefault().language) {
+            "en" -> "English"
+            "ts" -> "Tsonga"
+            "af" -> "Afrikaans"
+            else -> "English"
+        }
+    }
 
     // Handle online mode checkbox change
     private fun handleOnlineModeChange(isChecked: Boolean) {
@@ -368,7 +438,7 @@ class Settings : Fragment() {
                 }else{
                     Toast.makeText(requireContext(), "Couldn't disable notifications", Toast.LENGTH_SHORT).show()
                 }
-            }
-    }
+                }
+        }
 
 }

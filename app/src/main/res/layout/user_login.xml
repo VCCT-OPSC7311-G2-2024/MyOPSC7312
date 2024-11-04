@@ -31,7 +31,7 @@
         android:layout_marginEnd="118dp"
         android:layout_marginBottom="549dp"
         android:gravity="center"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +62,7 @@
             android:background="@drawable/shape_2"
             android:drawableStart="@drawable/user_icon"
             android:drawablePadding="16dp"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -72,7 +72,7 @@
             android:background="@drawable/shape_2"
             android:drawableStart="@drawable/key_icon"
             android:drawablePadding="10dp"
-            android:hint="Password"
+            android:hint="@string/password_lbl"
             android:inputType="textPassword" />
 
         <TextView
@@ -80,14 +80,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Forgot your password?" />
+            android:text="@string/forgot_psw" />
 
         <Button
             android:id="@+id/regButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
-            android:text="Login"
+            android:text="@string/login"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="---------  or sign in with finger print scan   ---------"
+            android:text="@string/biometrics_signin"
             android:textColor="@color/black"
             android:textSize="14sp" />
 
@@ -133,14 +133,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="Dont have an account?" />
+            android:text="@string/noAccount" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Sign up"
+            android:text="@string/signUp"
             android:textColor="@android:color/holo_blue_light" />
     </LinearLayout>
 

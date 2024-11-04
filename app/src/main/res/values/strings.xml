@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="Project_name">MyOPSC7312</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -48,6 +49,17 @@
     <string name="budget_header">Make your Budget</string>
     <string name="submit">Submit</string>
     <string name="monthBudget">Monthly Budget</string>
+    <string name="darkMode">Dark Mode</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="forgot_psw">Forgot your password?</string>
+    <string name="biometrics_signin">---------  or sign in with finger print scan   ---------</string>
+    <string name="noAccount">Don\'t have an account?</string>
+    <string name="signUp">Sign up</string>
+    <string name="conPass">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="signIn">---------   Sign in   ---------</string>
+    <string name="e.g.Groceries">E.g. Groceries</string>
     <string-array name="account_types">
         <item>Savings</item>
         <item>Checkings</item>
