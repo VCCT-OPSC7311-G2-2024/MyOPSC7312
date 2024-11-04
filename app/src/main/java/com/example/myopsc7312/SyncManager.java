@@ -11,7 +11,6 @@ import android.util.Log;
 import android.content.BroadcastReceiver;
 import android.net.NetworkInfo;
 import android.content.Intent;
-
 import com.example.myopsc7312.Account;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
