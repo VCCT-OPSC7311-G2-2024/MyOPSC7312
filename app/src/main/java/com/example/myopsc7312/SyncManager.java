@@ -22,11 +22,6 @@ public class SyncManager {
     private DatabaseHelper databaseHelper;
     private DatabaseReference databaseReference;
     private Context context;
-    private static final String ACCOUNT_ID = "account_id";
-    private static final String USER_ID = "user_id";
-    private static final String BALANCE = "balance";
-    private static final String NAME = "name";
-    private static final String TYPE = "type";
 
 
     public SyncManager(Context context) {
@@ -52,40 +47,6 @@ public class SyncManager {
             }
         }
     };
-
-    public void syncUnsyncedAccounts(Context context) {
-        if (NetworkUtil.isNetworkAvailable(context)) {
-            Cursor accountCursor = databaseHelper.getAllUnsyncedAccounts();
-            while (accountCursor.moveToNext()) {
-                int accountIdIndex = accountCursor.getColumnIndex("account_id");
-                int userIdIndex = accountCursor.getColumnIndex("user_id");
-                int balanceIndex = accountCursor.getColumnIndex("balance");
-                int nameIndex = accountCursor.getColumnIndex("name");
-                int typeIndex = accountCursor.getColumnIndex("type");
-
-                if (accountIdIndex != -1 && userIdIndex != -1 && balanceIndex != -1 && nameIndex != -1 && typeIndex != -1) {
-                    String accountId = accountCursor.getString(accountIdIndex);
-                    String userId = accountCursor.getString(userIdIndex);
-                    double balance = accountCursor.getDouble(balanceIndex);
-                    String name = accountCursor.getString(nameIndex);
-                    String type = accountCursor.getString(typeIndex);
-
-                    DatabaseReference accountRef = databaseReference.child("accounts").child(accountId);
-                    accountRef.child("user_id").setValue(userId);
-                    accountRef.child("balance").setValue(balance);
-                    accountRef.child("name").setValue(name);
-                    accountRef.child("type").setValue(type);
-
-                    ContentValues accountValues = new ContentValues();
-                    accountValues.put("synced", 1);
-                    databaseHelper.updateAccount(accountId, accountValues);
-                }
-            }
-            accountCursor.close();
-        } else {
-            Log.d("SyncManager", "Device is offline, cannot sync data.");
-        }
-    }
 
     // Fetch data from Firebase and save to SQLite
     public void syncFirebaseToSQLite() {
@@ -125,15 +86,14 @@ public class SyncManager {
                                 databaseHelper.insertExpense(expenseId, accountDetailSnapshot.getKey(), amount, expenseName, 0);
                             }
                         }
-
                     }
                 } catch (Exception e) {
-                    // Handle possible errors.
                     e.printStackTrace();
-                }finally {
+                } finally {
                     db.close();
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Handle possible errors.
@@ -146,29 +106,29 @@ public class SyncManager {
                 // Sync accounts
                 Cursor accountCursor = databaseHelper.getAllUnsyncedAccounts();
                 while (accountCursor.moveToNext()) {
-                int accountIdIndex = accountCursor.getColumnIndex("account_id");
-                int userIdIndex = accountCursor.getColumnIndex("user_id");
-                int balanceIndex = accountCursor.getColumnIndex("balance");
-                int nameIndex = accountCursor.getColumnIndex("name");
-                int typeIndex = accountCursor.getColumnIndex("type");
-                if (accountIdIndex != -1 && userIdIndex != -1 && balanceIndex != -1 && nameIndex != -1 && typeIndex != -1) {
-                    String accountId = accountCursor.getString(accountIdIndex);
-                    String userId = accountCursor.getString(userIdIndex);
-                    double balance = accountCursor.getDouble(balanceIndex);
-                    String name = accountCursor.getString(nameIndex);
-                    String type = accountCursor.getString(typeIndex);
-                    DatabaseReference accountRef = databaseReference.child("accounts").child(accountId);
-                    accountRef.child("user_id").setValue(userId);
-                    accountRef.child("balance").setValue(balance);
-                    accountRef.child("name").setValue(name);
-                    accountRef.child("type").setValue(type);
+                    int accountIdIndex = accountCursor.getColumnIndex("account_id");
+                    int userIdIndex = accountCursor.getColumnIndex("user_id");
+                    int balanceIndex = accountCursor.getColumnIndex("balance");
+                    int nameIndex = accountCursor.getColumnIndex("name");
+                    int typeIndex = accountCursor.getColumnIndex("type");
+                    if (accountIdIndex != -1 && userIdIndex != -1 && balanceIndex != -1 && nameIndex != -1 && typeIndex != -1) {
+                        String accountId = accountCursor.getString(accountIdIndex);
+                        String userId = accountCursor.getString(userIdIndex);
+                        double balance = accountCursor.getDouble(balanceIndex);
+                        String name = accountCursor.getString(nameIndex);
+                        String type = accountCursor.getString(typeIndex);
+                        DatabaseReference accountRef = databaseReference.child("accounts").child(accountId);
+                        accountRef.child("user_id").setValue(userId);
+                        accountRef.child("balance").setValue(balance);
+                        accountRef.child("name").setValue(name);
+                        accountRef.child("type").setValue(type);
 
-                    ContentValues accountValues = new ContentValues();
-                    accountValues.put("synced", 1);
-                    databaseHelper.updateAccount(accountId, accountValues);
+                        ContentValues accountValues = new ContentValues();
+                        accountValues.put("synced", 1);
+                        databaseHelper.updateAccount(accountId, accountValues);
+                    }
+                    accountCursor.close();
                 }
-                accountCursor.close();
-
                 Cursor budgetCursor = databaseHelper.getAllUnsyncedBudgets();
                 while (budgetCursor.moveToNext()) {
                     int budgetIdIndex = budgetCursor.getColumnIndex("budget_id");
@@ -219,7 +179,6 @@ public class SyncManager {
                     expenseCursor.close();
                 }
             }
-        }
         else {
             // Device is offline, handle accordingly
             Log.d("SyncManager", "Device is offline, cannot sync data.");

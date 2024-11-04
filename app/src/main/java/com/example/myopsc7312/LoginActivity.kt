@@ -40,8 +40,15 @@ class LoginActivity : AppCompatActivity() {
         // Initialize DatabaseHelper and insert user data
         val dbHelper = DatabaseHelper(this)
         //dbHelper.insertUser("Umara2003@gmail.com", "UAhmed@123")
+
         // Initialize SyncManager and call sync method
+        // Initialize SyncManager
         val syncManager = SyncManager(this)
+
+        // Sync data from Firebase to SQLite
+        syncManager.syncFirebaseToSQLite()
+
+        // Sync data from SQLite to Firebase
         syncManager.syncSQLiteToFirebase(this)
 
 
