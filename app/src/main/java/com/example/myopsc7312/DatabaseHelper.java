@@ -62,6 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "account_id TEXT, " +
                 "amount REAL, " +
                 "name TEXT, " +
+                "synced INTEGER DEFAULT 0, " +
                 "FOREIGN KEY (account_id) REFERENCES accounts(account_id)" +
                 ")";
         db.execSQL(CREATE_BUDGETS_TABLE);
@@ -72,6 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "account_id TEXT, " +
                 "amount REAL, " +
                 "name TEXT, " +
+                "synced INTEGER DEFAULT 0, " +
                 "FOREIGN KEY (account_id) REFERENCES accounts(account_id)" +
                 ")";
         db.execSQL(CREATE_EXPENSES_TABLE);
@@ -97,6 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //
     public void insertAccount(String accountId, String userId, double balance, String name, String type, int synced) {
         SQLiteDatabase db = this.getWritableDatabase();
+        try {
         ContentValues values = new ContentValues();
         values.put("account_id", accountId);
         values.put("user_id", userId);
@@ -105,11 +108,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("type", type);
         values.put("synced", synced);
         db.insert("accounts", null, values);
-        db.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            db.close();
+        }
     }
 
     // Insert Budget
-    public void insertBudget(String budgetId, String accountId, double amount, String name) {
+    public void insertBudget(String budgetId, String accountId, double amount, String name, int synced) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
@@ -117,6 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(ACCOUNT_ID, accountId);
             values.put(AMOUNT, amount);
             values.put(NAME, name);
+            values.put("synced", synced);
             db.insert(TABLE_BUDGETS, null, values);
         }catch (Exception e) {
             e.printStackTrace();
@@ -126,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert Expense
-    public void insertExpense(String expenseId, String accountId, double amount, String name) {
+    public void insertExpense(String expenseId, String accountId, double amount, String name, int synced) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
@@ -134,6 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(ACCOUNT_ID, accountId);
             values.put(AMOUNT, amount);
             values.put(NAME, name);
+            values.put("synced", synced);
             db.insert(TABLE_EXPENSES, null, values);
         }catch (Exception e) {
             e.printStackTrace();
@@ -285,6 +294,4 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return accounts;
     }
-
-
 }

@@ -38,7 +38,6 @@ public class SyncManager {
 
     private void registerNetworkReceiver(Context context) {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        ;
         context.registerReceiver(networkReceiver, filter);
     }
 
@@ -114,7 +113,7 @@ public class SyncManager {
                                 String budgetId = budgetSnapshot.getKey();
                                 double amount = Double.parseDouble(budgetSnapshot.child("amount").getValue(String.class));
                                 String budgetName = budgetSnapshot.child("name").getValue(String.class);
-                                databaseHelper.insertBudget(budgetId, accountDetailSnapshot.getKey(), amount, budgetName);
+                                databaseHelper.insertBudget(budgetId, accountDetailSnapshot.getKey(), amount, budgetName, 0);
                             }
 
                             // Insert expenses data into SQLite
@@ -123,7 +122,7 @@ public class SyncManager {
                                 String expenseId = expenseSnapshot.getKey();
                                 double amount = expenseSnapshot.child("amount").getValue(Double.class);
                                 String expenseName = expenseSnapshot.child("name").getValue(String.class);
-                                databaseHelper.insertExpense(expenseId, accountDetailSnapshot.getKey(), amount, expenseName);
+                                databaseHelper.insertExpense(expenseId, accountDetailSnapshot.getKey(), amount, expenseName, 0);
                             }
                         }
 
