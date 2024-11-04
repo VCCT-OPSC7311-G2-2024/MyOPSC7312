@@ -23,7 +23,6 @@ public class SyncManager {
     private DatabaseReference databaseReference;
     private Context context;
 
-
     public SyncManager(Context context) {
         this.context = context;
         databaseHelper = new DatabaseHelper(context);
@@ -103,8 +102,9 @@ public class SyncManager {
 
     public void syncSQLiteToFirebase(Context context) {
         if (NetworkUtil.isNetworkAvailable(context)) {
-                // Sync accounts
-                Cursor accountCursor = databaseHelper.getAllUnsyncedAccounts();
+            // Sync accounts
+            Cursor accountCursor = databaseHelper.getAllUnsyncedAccounts();
+            try {
                 while (accountCursor.moveToNext()) {
                     int accountIdIndex = accountCursor.getColumnIndex("account_id");
                     int userIdIndex = accountCursor.getColumnIndex("user_id");
@@ -127,9 +127,15 @@ public class SyncManager {
                         accountValues.put("synced", 1);
                         databaseHelper.updateAccount(accountId, accountValues);
                     }
+                }
+            } finally {
+                if (accountCursor != null && !accountCursor.isClosed()) {
                     accountCursor.close();
                 }
-                Cursor budgetCursor = databaseHelper.getAllUnsyncedBudgets();
+            }
+            // Sync budgets
+            Cursor budgetCursor = databaseHelper.getAllUnsyncedBudgets();
+            try {
                 while (budgetCursor.moveToNext()) {
                     int budgetIdIndex = budgetCursor.getColumnIndex("budget_id");
                     int budgetAccountIdIndex = budgetCursor.getColumnIndex("account_id");
@@ -151,10 +157,14 @@ public class SyncManager {
                         databaseHelper.updateBudget(budgetId, budgetValues);
                     }
                 }
-                budgetCursor.close();
-
-                Cursor expenseCursor = databaseHelper.getAllUnsyncedExpenses();
-                Cursor unsyncedExpenseCursor = databaseHelper.getAllUnsyncedExpenses();
+            } finally {
+                if (budgetCursor != null && !budgetCursor.isClosed()) {
+                    budgetCursor.close();
+                }
+            }
+            // Sync expenses
+            Cursor expenseCursor = databaseHelper.getAllUnsyncedExpenses();
+            try {
                 while (expenseCursor.moveToNext()) {
                     int expenseIdIndex = expenseCursor.getColumnIndex("expense_id");
                     int expenseAccountIdIndex = expenseCursor.getColumnIndex("account_id");
@@ -175,11 +185,13 @@ public class SyncManager {
                         expenseValues.put("synced", 1);
                         databaseHelper.updateExpense(expenseId, expenseValues);
                     }
-                    unsyncedExpenseCursor.close();
+                }
+            } finally {
+                if (expenseCursor != null && !expenseCursor.isClosed()) {
                     expenseCursor.close();
                 }
             }
-        else {
+        } else {
             // Device is offline, handle accordingly
             Log.d("SyncManager", "Device is offline, cannot sync data.");
         }

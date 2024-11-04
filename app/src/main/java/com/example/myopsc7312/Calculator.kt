@@ -1,7 +1,10 @@
 package com.example.myopsc7312
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -13,10 +16,16 @@ class Calculator : AppCompatActivity() {
     private var secondNumber: Double = 0.0
     private var operator: String = ""
     private var isNewOp = true
+    private lateinit var homeNav: ImageView
+    private lateinit var converterNavigation: ImageView
+    private lateinit var profileNav: ImageView
+    private lateinit var userUid: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.calculator_layout)
+
+
 
         display = findViewById(R.id.display)
 
@@ -75,4 +84,24 @@ class Calculator : AppCompatActivity() {
         operator = ""
         isNewOp = true
     }
+
+    private fun setupButtonListeners() {
+        // Get the intent data
+        val message = intent.getStringExtra("userUid")
+        userUid = message.toString()
+
+        //footer navigation
+        converterNavigation.setOnClickListener {
+            val intent = Intent(this, CurrencyConverterAPI::class.java)
+            startActivity(intent)
+        }
+        homeNav.setOnClickListener {
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("userUid", userUid)
+            startActivity(intent)
+            finish()
+        }
+
+    }
+
 }
