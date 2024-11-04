@@ -246,7 +246,7 @@
 
         <FrameLayout
             android:id="@+id/ConverterNavigator"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_gravity="start"
             android:layout_marginStart="65dp"
@@ -262,7 +262,7 @@
                 android:src="@drawable/converter_icon" />
 
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/converter"
                 android:layout_marginTop="30dp"/>

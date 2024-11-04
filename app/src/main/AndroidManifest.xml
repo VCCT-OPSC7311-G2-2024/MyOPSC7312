@@ -31,7 +31,7 @@
         </activity>
 
         <activity android:name=".RegisterActivity"/>
-        <activity android:name=".HomeActivity"/>
+        <activity android:name=".HomeActivity"  />
         <activity android:name=".CurrencyConverterAPI"/>
         <service
             android:name=".CurrencyConverterAPI"

@@ -1,0 +1,7 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/buttonBackground" /> <!-- Background color for dark mode -->
+    <stroke
+        android:width="2dp"
+        android:color="@color/highlight" /> <!-- Border color and width for dark mode -->
+    <corners android:radius="8dp" /> <!-- Optional: Rounded corners -->
+</shape>

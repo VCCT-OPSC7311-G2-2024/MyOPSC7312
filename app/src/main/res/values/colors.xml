@@ -7,4 +7,16 @@
     <color name="blockGreen">#4F8F79</color>
     <color name="headerGreen">#2C6F0C</color>
     <color name="footer">#91DE99</color>
+
+
+        <color name="primaryDarkBackground">#121212</color>
+        <color name="secondaryBackground">#1E1E1E</color>
+        <color name="accent">#BB86FC</color>
+        <color name="primaryText">#FFFFFF</color>
+        <color name="secondaryText">#B0B0B0</color>
+        <color name="error">#CF6679</color>
+        <color name="highlight">#03DAC6</color>
+        <color name="buttonBackground">#333333</color>
+        <color name="disabledText">#666666</color>
+
 </resources>

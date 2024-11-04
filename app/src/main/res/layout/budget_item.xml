@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal">
 
-    <FrameLayout
-        android:layout_width="360dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <FrameLayout
             android:id="@+id/innerLayout"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="55dp"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:background="@drawable/shape_1"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="UselessParent">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape_1">
 
             <TextView
                 android:id="@+id/BudgetName"
@@ -37,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="180dp"
+                android:layout_marginStart="150dp"
                 android:text="@string/assets_value"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
@@ -47,10 +38,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="280dp"
+                android:layout_marginStart="260dp"
                 android:src="@drawable/baseline_restore_from_trash_24" />
 
         </FrameLayout>
-    </FrameLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

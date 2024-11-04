@@ -6,9 +6,10 @@
 
     <FrameLayout
         android:id="@+id/innerLayout"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="55dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/shape_1"
         android:layout_gravity="center_horizontal">
 
@@ -35,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="180dp"
+            android:layout_marginStart="140dp"
             android:text="@string/assets_value"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -45,7 +46,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="260dp"
+            android:layout_marginStart="180dp"
             android:src="@drawable/baseline_chevron_right_24" />
 
         <ImageView
@@ -53,7 +54,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="320dp"
+            android:layout_marginStart="250dp"
             android:src="@drawable/baseline_restore_from_trash_24" />
 
     </FrameLayout>
