@@ -23,6 +23,9 @@ import com.google.firebase.messaging.RemoteMessage
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import java.util.Locale
+import android.app.AlertDialog
+import android.content.DialogInterface
+
 
 class Settings : Fragment() {
 
@@ -167,7 +170,6 @@ class Settings : Fragment() {
                 .commit()
         }
     }
-
     private fun languageChange() {
         // Array of languages
         val languages = arrayOf("English", "Tsonga", "Afrikaans")
@@ -178,11 +180,16 @@ class Settings : Fragment() {
         // Set up listener for language selection
         languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                when (position) {
-                    0 -> setLocale("en")  // English
-                    1 -> setLocale("ts")  // Tsonga
-                    2 -> setLocale("af")  // Afrikaans
+                val selectedLanguageCode = when (position) {
+                    0 -> "en"  // English
+                    1 -> "ts"  // Tsonga
+                    2 -> "af"  // Afrikaans
+                    else -> "en"
                 }
+                // Change the locale
+                setLocale(selectedLanguageCode)
+                // Prompt the user to return to the home page
+                showLanguageChangeDialog()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -190,19 +197,30 @@ class Settings : Fragment() {
             }
         }
     }
-    // Method to change the locale
+
     private fun setLocale(languageCode: String) {
         val locale = Locale(languageCode)
         Locale.setDefault(locale)
         val config = resources.configuration
         config.setLocale(locale)
         requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
-
-        // Restart the fragment to apply the language change
-        parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
     }
 
-
+    private fun showLanguageChangeDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Language Change")
+        builder.setMessage("The language has been changed. Please return to the home page for the change to take effect.")
+        builder.setPositiveButton("Go to Home"){ dialogInterface: DialogInterface, _: Int ->
+            // Navigate to the home page
+            val intent = Intent(requireActivity(), HomeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.show()
+    }
     // Set up checkbox change listeners
     private fun setupCheckboxListeners() {
         notificationCheckBox.setOnCheckedChangeListener { _, isChecked -> handleNotificationChange(isChecked) }
