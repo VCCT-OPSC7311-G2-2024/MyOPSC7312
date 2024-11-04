@@ -8,7 +8,11 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 
 class LoginActivity : AppCompatActivity() {
@@ -23,6 +27,11 @@ class LoginActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Initialize DatabaseHelper and insert user data
+        val dbHelper = DatabaseHelper(this)
+        dbHelper.insertUser("Umara2003@gmail.com", "UAhmed@123")
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_login)
 
@@ -70,15 +79,20 @@ class LoginActivity : AppCompatActivity() {
         }
     }
     private fun loginUser(email: String, password: String) {
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
+        if (NetworkUtil.isNetworkAvailable(this)) {
+        //database.addListenerForSingleValueEvent(object : ValueEventListener
+            database.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener{
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var userFound = false
                 for (userSnapshot in dataSnapshot.children) {
                     val user = userSnapshot.getValue(User::class.java)
-                    if (user != null) {
-                        if (user.email == email && user.password == password) {
+                    if (user != null && user.password == password && user.email == email) {
                             userFound = true
                             val userUId = userSnapshot.key // This retrieves the user's ID from Firebase
+
+                            // Store user data locally
+                            val dbHelper = DatabaseHelper(this@LoginActivity)
+                            dbHelper.insertUser(user.email, user.password)
 
                             Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
 
@@ -88,7 +102,6 @@ class LoginActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish() // Optionally close login screen
                             break
-                        }
                     }
                 }
                 if (!userFound) {
@@ -100,8 +113,19 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this@LoginActivity, "Login failed: ${databaseError.message}", Toast.LENGTH_SHORT).show()
             }
         })
+        } else {
+            // Check local credentials
+            val dbHelper = DatabaseHelper(this)
+            if (dbHelper.checkUserCredentials(email, password)) {
+                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
-
 
    // data class User(val email: String = "", val password: String = "")
 }

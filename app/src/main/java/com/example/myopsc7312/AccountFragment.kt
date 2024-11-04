@@ -90,6 +90,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun loadAccounts() {
+        if (NetworkUtil.isNetworkAvailable(requireContext())) {
         // Retrieve accounts from Firebase
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -152,6 +153,36 @@ class AccountFragment : Fragment() {
                 // Handle potential errors
             }
         })
+        } else {
+            // Load accounts from SQLite
+            val dbHelper = DatabaseHelper(requireContext())
+            val accounts = dbHelper.getAccounts(userUid)
+            accountListContainer.removeAllViews()
+            var totalBalance = 0.0
+
+            for (account in accounts) {
+                try {
+                    val accountItemView = layoutInflater.inflate(R.layout.expense_item, accountListContainer, false)
+                    val accountNameText = accountItemView.findViewById<TextView>(R.id.SavingsText)
+                    val accountBalanceText = accountItemView.findViewById<TextView>(R.id.SavingsValue)
+                    val binImageView = accountItemView.findViewById<ImageView>(R.id.expenseBin)
+
+                    accountNameText.text = account.accountName
+                    accountBalanceText.text = account.accountBalance.toString()
+
+                    binImageView.setOnClickListener {
+                        deleteAccount(account.accountId)
+                    }
+
+                    accountListContainer.addView(accountItemView)
+                    totalBalance += account.accountBalance
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    Toast.makeText(requireContext(), "Error loading account item: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+            assetsValueTextView.text = "R %.2f".format(totalBalance)
+        }
     }
 
     private fun openAnyliticsFragment(accountId: String) {

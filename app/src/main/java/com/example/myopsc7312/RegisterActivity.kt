@@ -35,6 +35,11 @@ class RegisterActivity : AppCompatActivity() {
         // Initialize Firebase Database
         database = FirebaseDatabase.getInstance().reference
 
+        // Sync local data with Firebase if internet is available
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            syncLocalDataWithFirebase()
+        }
+
         // Set up register button click listener
         regButton.setOnClickListener {
             registerUser()
@@ -44,6 +49,23 @@ class RegisterActivity : AppCompatActivity() {
         myTextView.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun syncLocalDataWithFirebase() {
+        val dbHelper = DatabaseHelper(this)
+        val users = dbHelper.getAllUserList()
+
+        for (user in users) {
+            val userId = database.push().key
+            if (userId != null) {
+                database.child("users").child(userId).setValue(user).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Remove user from local database after successful sync
+                        dbHelper.deleteUser(user.email)
+                    }
+                }
+            }
         }
     }
 
@@ -83,28 +105,34 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        // Save user to Firebase Realtime Database
-        val userId = database.push().key
-        val user = User(email, password)
-        if (userId != null) {
-            database.child("users").child(userId).setValue(user).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
-                    // Clear all fields
-                    etEmail.text.clear()
-                    etPassword.text.clear()
-                    etConfirmPassword.text.clear()
+        // Check for internet connection
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            // Save user to Firebase Realtime Database
+            val userId = database.push().key
+            val user = User(email, password)
+            if (userId != null) {
+                database.child("users").child(userId).setValue(user).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
+                        // Clear all fields
+                        etEmail.text.clear()
+                        etPassword.text.clear()
+                        etConfirmPassword.text.clear()
 
-                    // Navigate to new activity
-                    val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
+                        // Navigate to new activity
+                        val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
+        } else {
+            // Save user to local database
+            val dbHelper = DatabaseHelper(this)
+            dbHelper.insertUser(email, password)
+            Toast.makeText(this, "No internet connection. User data saved locally.", Toast.LENGTH_SHORT).show()
         }
-        // Show success message
-        Toast.makeText(this, "Registration successful!", Toast.LENGTH_SHORT).show()
     }
     //data class User(val email: String, val password: String)
 }

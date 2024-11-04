@@ -198,8 +198,7 @@ class budget : Fragment() {
 
     // Sync unsynced budgets when network is available
     private fun syncUnsyncedBudgets() {
-        val syncManager = SyncManager(requireContext())
-        syncManager.syncSQLiteToFirebase(requireContext())
+        SyncManager(requireContext()).syncSQLiteToFirebase(requireContext())
     }
 
     override fun onResume() {

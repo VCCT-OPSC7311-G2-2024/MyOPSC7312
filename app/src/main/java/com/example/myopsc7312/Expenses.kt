@@ -152,6 +152,8 @@ class Expenses : Fragment() {
 
     // Function to load expenses from Firebase and display them
     private fun loadExpenses() {
+        if (NetworkUtil.isNetworkAvailable(requireContext())) {
+            // Load expenses from Firebase
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 expenseListContainer.removeAllViews()
@@ -195,7 +197,7 @@ class Expenses : Fragment() {
                         Log.e("FirebaseData", "Expense is null or not deserialized correctly")
                         Toast.makeText(requireContext(), "Invalid expense data", Toast.LENGTH_SHORT).show()
                     }
-                }catch (e: Exception) {
+                } catch (e: Exception) {
                         e.printStackTrace()
                         Toast.makeText(requireContext(), "Error loading expense item: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
@@ -206,6 +208,10 @@ class Expenses : Fragment() {
                 Toast.makeText(requireContext(), "Failed to load expenses", Toast.LENGTH_SHORT).show()
                 }
             })
+        } else {
+
+        }
+
     }
 
 

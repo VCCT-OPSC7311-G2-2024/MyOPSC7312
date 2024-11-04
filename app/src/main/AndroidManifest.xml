@@ -28,6 +28,7 @@
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".HomeActivity"/>
         <activity android:name=".CurrencyConverterAPI"/>
+        <activity android:name=".Calculator"/>
         <service
             android:name=".CurrencyConverterAPI"
             android:exported="false">
