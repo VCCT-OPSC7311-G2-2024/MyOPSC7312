@@ -49,6 +49,17 @@
     <string name="submit">Hlawula</string>
     <string name="monthBudget">Ndhavuko wa Nhweti</string>
     <string name="home">Yindlu</string>
+    <string name="darkMode">Mode ya munyama</string>
+    <string name="login">Nghenaa</string>
+    <string name="email">Hundzuluxa”</string>
+    <string name="forgot_psw">U rivele password ya wena?</string>
+    <string name="biometrics_signin">---------  kumbe u nghena hi ku tirhisa xikeni xa swikombiso swa tintiho   ---------</string>
+    <string name="noAccount">A wu na akhawunti?</string>
+    <string name="signUp">Tsarisa</string>
+    <string name="conPass">Tiyisisa Phasiwedi</string>
+    <string name="register">Tsarisela</string>
+    <string name="signIn">---------   Tsarisa   ---------</string>
+    <string name="e.g.Groceries">E.g. Swilo swo xavisa swakudya</string>
     <string-array name="account_types">
         <item>Akhawunti ya ku hlayisa</item>
         <item>Akhawunti ya ku tirha</item>

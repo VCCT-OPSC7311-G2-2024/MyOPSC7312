@@ -63,7 +63,7 @@
             android:background="@drawable/shape_2"
             android:drawableStart="@drawable/user_icon"
             android:drawablePadding="10dp"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -74,7 +74,7 @@
             android:background="@drawable/shape_2"
             android:drawableStart="@drawable/key_icon"
             android:drawablePadding="10dp"
-            android:hint="Password"
+            android:hint="@string/password_lbl"
             android:inputType="textPassword" />
 
         <EditText
@@ -85,7 +85,7 @@
             android:background="@drawable/shape_2"
             android:drawableStart="@drawable/key_icon"
             android:drawablePadding="10dp"
-            android:hint="Confirm Password"
+            android:hint="@string/conPass"
             android:inputType="textPassword" />
 
         <Button
@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
-            android:text="Register"
+            android:text="@string/register"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="---------   Sign in   ---------"
+            android:text="@string/signIn"
             android:textColor="@android:color/holo_blue_light"
             android:textSize="14sp" />
     </LinearLayout>

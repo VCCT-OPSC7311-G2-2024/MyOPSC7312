@@ -11,7 +11,7 @@ class MyApplication: Application() {
         super.onCreate()
         setLocale(this)
     }
-
+    //Please work
     companion object {
         fun setLocale(context: Context) {
             val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)

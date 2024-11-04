@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:alpha="0.6"
-            android:background="@color/light_dark_green">
+            android:background="@color/headerGreen">
 
         </FrameLayout>
     </LinearLayout>
@@ -30,9 +30,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/footer"
+        android:backgroundTint="@color/blockGreen"
         android:text="@string/back"
-        android:textColor="@color/blockGreen"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,7 @@
             android:id="@+id/imageView4"
             android:layout_width="166dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="300dp"
+            android:layout_gravity="end"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp"
             android:src="@drawable/logo" />
@@ -82,7 +82,7 @@
     <FrameLayout
         android:id="@+id/inputFields"
         android:layout_width="250dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="@+id/Background"
         app:layout_constraintTop_toBottomOf="@+id/ExpenseHeading">
@@ -100,7 +100,7 @@
         <EditText
             android:id="@+id/namePrompt"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_gravity="top"
             android:layout_marginStart="60dp"
             android:background="@drawable/shape_2"
@@ -109,7 +109,6 @@
             android:inputType="text"
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
-
 
         <TextView
             android:id="@+id/Amount"
@@ -124,13 +123,13 @@
         <EditText
             android:id="@+id/expenseField"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_gravity="bottom"
             android:layout_marginStart="60dp"
             android:inputType="numberDecimal"
             android:background="@drawable/shape_2"
             android:autofillHints="E.g. Groceries"
-            android:hint="E.g. 2000"
+            android:hint="@string/amount_lbl"
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
 
@@ -160,9 +159,10 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/light_dark_green"
+        android:backgroundTint="@color/blockGreen"
         android:text="@string/submit"
         app:cornerRadius="15dp"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountScrollView" />
