@@ -134,7 +134,7 @@ class Expenses : Fragment() {
                 put("name", name)
                 put("synced", 0)
             }
-            databaseHelper.insertExpense(expenseId, currentAccountId, amount.toDouble(), name)
+            databaseHelper.insertExpense(expenseId, currentAccountId, amount.toDouble(), name, 0)
             Toast.makeText(requireContext(), "Expense saved locally", Toast.LENGTH_SHORT).show()
         }
     }

@@ -123,7 +123,7 @@ class budget : Fragment() {
                 put("name", enterName)
                 put("synced", 0)
             }
-            databaseHelper.insertBudget(budgetId, accountUid, enterAmount.toDouble(), enterName)
+            databaseHelper.insertBudget(budgetId, accountUid, enterAmount.toDouble(), enterName, 0)
             Toast.makeText(requireContext(), "Budget saved locally", Toast.LENGTH_SHORT).show()
         }
     }
