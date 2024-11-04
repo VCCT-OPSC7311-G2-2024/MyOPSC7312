@@ -1,199 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".Settings"
     android:orientation="vertical"
-    tools:context=".Settings">
+    android:background="@drawable/app_background">
 
     <LinearLayout
-        android:id="@+id/Background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/app_background"
-        android:orientation="vertical"
-        android:layout_marginBottom="140dp"
-        android:layout_marginTop="-360dp"/>
-
-    <LinearLayout
-        android:id="@+id/linearLayout7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
             android:text="Details"
-            android:textSize="30dp" />
+            android:textSize="30dp"/>
 
         <Button
             android:id="@+id/editProfileBtn"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_marginStart="140dp"
             android:layout_marginTop="15dp"
-            android:text="Edit Profile"
-            android:textColor="@color/white" />
+            android:layout_marginStart="140dp"
+            android:text="Edit Profile" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/profileIconHolder"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/user_icon" />
-    </LinearLayout>
+        android:src="@drawable/user_icon"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="40dp"/>
 
     <LinearLayout
-        android:id="@+id/linearLayout5"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="150dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
             android:text="Username:"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"/>
 
         <EditText
             android:id="@+id/usernameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="150dp"
-            android:enabled="false"
             android:text=""
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="150dp"
+            android:enabled="false"/>
 
     </LinearLayout>
 
     <View
-        android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:text="Password:"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_marginStart="20dp"/>
 
         <EditText
             android:id="@+id/passwordTxt"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="150dp"
-            android:layout_gravity="center_vertical"
-            android:enabled="false"
-            android:inputType="textPassword"
+            android:layout_height="50dp"
+            android:textSize="18dp"
             android:text=""
-            android:textSize="18dp" />
+            android:layout_marginStart="150dp"
+            android:inputType="textPassword"
+            android:enabled="false"/>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        android:paddingStart="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-        tools:context=".MainActivity">
-
-        <Switch
-            android:id="@+id/darkModeSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dark Mode" />
-
-    </LinearLayout>
-
 
     <TextView
-        android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
         android:text="Language"
-        android:textSize="25dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        android:textSize="25dp"/>
 
     <Spinner
         android:id="@+id/languageSpinner"
         android:layout_width="220dp"
         android:layout_height="48dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/shape_1"
-        android:enabled="false"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.111" />
+        android:background="@drawable/round_button_shape"
+        android:enabled="false"/>
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
+        android:text="Notifications"
+        android:textSize="25dp"/>
 
     <LinearLayout
-        android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/languageSpinner">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:text="Enable Notifications:"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_marginStart="20dp"/>
 
         <CheckBox
             android:id="@+id/notificationCheckBox"
@@ -201,84 +147,84 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:checked="true"
-            android:enabled="false" />
+            android:enabled="false"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/sign_outBtn"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:text="Offline Mode:"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_marginStart="20dp"/>
 
         <CheckBox
             android:id="@+id/offlineCheckBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="90dp"
-            android:enabled="false" />
+            android:enabled="false"/>
 
     </LinearLayout>
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/languageSpinner"
-        app:layout_constraintVertical_bias="0.396" />
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp" />
 
     <Button
         android:id="@+id/sign_outBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Out"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/saveChangesBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="15dp"
+        android:text="Sign Out"/>
 
     <Button
         android:id="@+id/saveChangesBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/buttonBackground"
-        android:enabled="false"
+        android:layout_marginTop="10dp"
         android:text="Save Changes"
-        android:textColor="@color/white"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/bottomAppBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:enabled="false"/>
 
     <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:background="@color/light_dark_green"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_gravity="bottom"
         tools:ignore="BottomAppBar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Converter Button -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/currencyNavBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/converter_icon"
+                    android:background="?attr/selectableItemBackground" />
+            </LinearLayout>
 
             <!-- Home Button -->
             <LinearLayout
@@ -292,12 +238,14 @@
                     android:id="@+id/homeNavBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:src="@drawable/home_icon" />
+                    android:src="@drawable/home_icon"
+                    android:background="?attr/selectableItemBackground" />
             </LinearLayout>
         </LinearLayout>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
