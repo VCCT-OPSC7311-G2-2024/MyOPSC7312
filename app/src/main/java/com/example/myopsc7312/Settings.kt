@@ -197,7 +197,6 @@ class Settings : Fragment() {
         return currentMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 
-
     private fun languageChange(){
 
     }
