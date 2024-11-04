@@ -48,7 +48,6 @@ class Settings : Fragment() {
     private lateinit var onlineCheckBox: CheckBox
     private lateinit var languageSpinner: Spinner
     //Nav buttons
-    private lateinit var converterNavBtn: ImageButton
     private lateinit var homeNavBtn: ImageButton
     private lateinit var settingsNavBtn: ImageButton
 
@@ -133,7 +132,6 @@ class Settings : Fragment() {
         languageSpinner = view.findViewById(R.id.languageSpinner)
 
         //nav buttons
-        converterNavBtn = view.findViewById(R.id.currencyNavBtn)
         homeNavBtn = view.findViewById(R.id.homeNavBtn)
 
         // Initialize SharedPreferences
@@ -153,11 +151,6 @@ class Settings : Fragment() {
         editBtn.setOnClickListener { enableEditing() }
 
         //navigation functions
-        converterNavBtn.setOnClickListener {
-            val intent = Intent(requireContext(), CurrencyConverterAPI::class.java)
-            intent.putExtra("userUid", currentUserId)
-            startActivity(intent)
-        }
         homeNavBtn.setOnClickListener {
             // Create a Bundle to pass data
             val bundle = Bundle()
@@ -172,7 +165,7 @@ class Settings : Fragment() {
         }
     }
 
-        private fun setupDarkModeToggle() {
+    private fun setupDarkModeToggle() {
         val darkModeSwitch = view?.findViewById<Switch>(R.id.darkModeSwitch)
         darkModeSwitch?.isChecked = isDarkModeEnabled()
 
@@ -186,30 +179,28 @@ class Settings : Fragment() {
         }
     }
 
-
-    private fun isDarkModeEnabled(): Boolean {
-        val currentMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
-        return currentMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
-    }
-
     private fun saveDarkModePreference(isEnabled: Boolean) {
         sharedPreferences.edit().putBoolean(KEY_DARK_MODE, isEnabled).apply()
     }
 
     private fun loadDarkModePreference() {
         val isDarkMode = sharedPreferences.getBoolean(KEY_DARK_MODE, false)
-        if (isDarkMode) {
+        if (isDarkMode && !isDarkModeEnabled()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
+        } else if (!isDarkMode && isDarkModeEnabled()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
     }
 
-    private fun languageChange(){
-
-
+    private fun isDarkModeEnabled(): Boolean {
+        val currentMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        return currentMode == android.content.res.Configuration.UI_MODE_NIGHT_YES
     }
 
+
+    private fun languageChange(){
+
+    }
 
     // Set up checkbox change listeners
     private fun setupCheckboxListeners() {

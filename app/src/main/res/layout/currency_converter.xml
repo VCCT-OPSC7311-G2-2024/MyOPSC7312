@@ -4,40 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_background"
-    android:padding="16dp"
     tools:context=".CurrencyConverterAPI">
 
-    <!-- Title Section -->
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="683dp"
-        android:gravity="center"
-        android:text="Currency Converter"
-        android:textColor="#000"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <LinearLayout
+        android:id="@+id/Background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/app_background"
+        android:orientation="vertical"
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="-200dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-199dp">
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerBackgroundContainer"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+    <FrameLayout
+        android:id="@+id/headerBackground"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:alpha="0.6"
+        android:background="@color/headerGreen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+    <!-- Title Section -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Currency Converter"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/headerBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/headerBackground"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Input Section (LinearLayout) -->
     <LinearLayout
         android:id="@+id/inputSection"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="395dp"
-        android:background="@android:color/white"
+        android:background="@drawable/shape_2"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title">
+        app:layout_constraintTop_toBottomOf="@id/headerBackgroundContainer">
 
         <!-- Amount Input -->
         <EditText
@@ -91,11 +121,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="323dp"
-        android:backgroundTint="#03A9F4"
+        android:backgroundTint="@color/blockGreen"
         android:padding="12dp"
         android:text="Convert"
         android:textColor="#FFF"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,14 +151,14 @@
         android:id="@+id/Footer"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/light_green"
+        android:background="@color/footer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <FrameLayout
             android:id="@+id/ConverterNavigator"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_gravity="start"
             android:layout_marginStart="65dp"
@@ -146,18 +177,16 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
+                android:textAlignment="center"
                 android:text="Converter" />
         </FrameLayout>
 
-
         <FrameLayout
             android:id="@+id/homeNavBtn"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="180dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/Footer"
+            android:layout_marginEnd="65dp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp">
 
@@ -173,6 +202,7 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="30dp"
+                android:textAlignment="center"
                 android:text="home" />
         </FrameLayout>
 

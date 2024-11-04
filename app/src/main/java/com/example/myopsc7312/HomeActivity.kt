@@ -3,10 +3,18 @@ package com.example.myopsc7312
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.content.SharedPreferences
 
 class HomeActivity : AppCompatActivity() {
+
+    private lateinit var sharedPreferences: SharedPreferences
+    companion object{
+        private const val KEY_DARK_MODE = "darkModeEnabled"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

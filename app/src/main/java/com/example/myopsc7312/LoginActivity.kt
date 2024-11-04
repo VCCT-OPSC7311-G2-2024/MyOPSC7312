@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
-    private  lateinit var biometricsBtn: ImageButton
+    private  lateinit var biometricsBtn: ImageView
     private var biometricSupport = false
     private lateinit var sharedPreferences: SharedPreferences
 
