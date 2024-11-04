@@ -2,6 +2,14 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.MyOPSC7312" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/primaryDarkBackground</item>
+        <item name="colorPrimaryVariant">@color/secondaryBackground</item>
+        <item name="colorSecondary">@color/accent</item>
+        <item name="android:textColorPrimary">@color/primaryText</item>
+        <item name="android:textColorSecondary">@color/secondaryText</item>
+        <item name="colorError">@color/error</item>
+        <item name="colorAccent">@color/highlight</item>
+        <item name="colorButtonNormal">@color/buttonBackground</item>
+        <item name="android:textColorHint">@color/disabledText</item>
     </style>
 </resources>
