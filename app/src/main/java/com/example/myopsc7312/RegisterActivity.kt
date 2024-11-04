@@ -2,8 +2,8 @@ package com.example.myopsc7312
 
 import android.content.Intent
 import android.content.SharedPreferences
+import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
-//import android.hardware.biometrics.BiometricPrompt
 import androidx.core.content.ContextCompat
 import android.os.Bundle
 import android.widget.Button
@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -64,6 +63,23 @@ class RegisterActivity : AppCompatActivity() {
         myTextView.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun syncLocalDataWithFirebase() {
+        val dbHelper = DatabaseHelper(this)
+        val users = dbHelper.getAllUserList()
+
+        for (user in users) {
+            val userId = database.push().key
+            if (userId != null) {
+                database.child("users").child(userId).setValue(user).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // Remove user from local database after successful sync
+                        dbHelper.deleteUser(user.email)
+                    }
+                }
+            }
         }
     }
 

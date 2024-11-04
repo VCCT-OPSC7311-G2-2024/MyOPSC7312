@@ -94,7 +94,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertAccount(String accountId, String userId, double balance, String name, String type) {
+    //
+    public void insertAccount(String accountId, String userId, double balance, String name, String type, int synced) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("account_id", accountId);
@@ -102,6 +103,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("balance", balance);
         values.put("name", name);
         values.put("type", type);
+        values.put("synced", synced);
         db.insert("accounts", null, values);
         db.close();
     }
@@ -141,10 +143,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert User
-    public void insertUser(String email, String password) {
+    public void insertUser(String userId, String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
             ContentValues values = new ContentValues();
+            values.put("user_id", userId);
             values.put("email", email);
             values.put("password", password);
             db.insert("users", null, values);

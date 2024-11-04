@@ -2,10 +2,15 @@ package com.example.myopsc7312;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.content.BroadcastReceiver;
+import android.net.NetworkInfo;
+import android.content.Intent;
 
 import com.example.myopsc7312.Account;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 public class SyncManager {
     private DatabaseHelper databaseHelper;
     private DatabaseReference databaseReference;
+    private Context context;
     private static final String ACCOUNT_ID = "account_id";
     private static final String USER_ID = "user_id";
     private static final String BALANCE = "balance";
@@ -25,11 +31,31 @@ public class SyncManager {
 
 
     public SyncManager(Context context) {
+        this.context = context;
         databaseHelper = new DatabaseHelper(context);
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        registerNetworkReceiver(context);
     }
 
-    public void syncDataWithFirebase(Context context) {
+    private void registerNetworkReceiver(Context context) {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        ;
+        context.registerReceiver(networkReceiver, filter);
+    }
+
+    private final BroadcastReceiver networkReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+            if (isConnected) {
+                syncSQLiteToFirebase(context);
+            }
+        }
+    };
+
+    public void syncUnsyncedAccounts(Context context) {
         if (NetworkUtil.isNetworkAvailable(context)) {
             Cursor accountCursor = databaseHelper.getAllUnsyncedAccounts();
             while (accountCursor.moveToNext()) {
@@ -80,7 +106,7 @@ public class SyncManager {
                                 String type = accountDetailSnapshot.child("type").getValue(String.class);
 
                                 // Insert account data into SQLite
-                                databaseHelper.insertAccount(accountDetailSnapshot.getKey(), userId, balance, name, type);
+                                databaseHelper.insertAccount(accountDetailSnapshot.getKey(), userId, balance, name, type, 0);
                             }
 
                             // Insert budgets data into SQLite
@@ -201,35 +227,4 @@ public class SyncManager {
             Log.d("SyncManager", "Device is offline, cannot sync data.");
         }
     }
-
-    private class SaveDataTask extends AsyncTask<Cursor, Void, Void> {
-        @Override
-        protected Void doInBackground(Cursor... cursors) {
-            Cursor cursor = cursors[0];
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                            int accountIdIndex = cursor.getColumnIndex(ACCOUNT_ID);
-                            int userIdIndex = cursor.getColumnIndex(USER_ID);
-                            int balanceIndex = cursor.getColumnIndex(BALANCE);
-                            int nameIndex = cursor.getColumnIndex(NAME);
-                            int typeIndex = cursor.getColumnIndex(TYPE);
-
-                            try {
-                                if (accountIdIndex != -1 && userIdIndex != -1 && balanceIndex != -1 && nameIndex != -1 && typeIndex != -1) {
-                                    String accountId = cursor.getString(accountIdIndex);
-                                    String userId = cursor.getString(userIdIndex);
-                                    double balance = cursor.getDouble(balanceIndex);
-                                    String name = cursor.getString(nameIndex);
-                                    String type = cursor.getString(typeIndex);
-                                    databaseHelper.insertAccount(accountId, userId, balance, name, type);
-                                }
-                            } catch (Exception e) {
-                                // Handle insertion error
-                                e.printStackTrace();
-                            }
-                        } while (cursor.moveToNext());
-                    }
-                    return null;
-                }
-            }
 }

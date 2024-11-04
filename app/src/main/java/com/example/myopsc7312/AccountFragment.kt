@@ -185,6 +185,11 @@ class AccountFragment : Fragment() {
         }
     }
 
+    private fun createAccountOffline(accountId: String, userId: String, balance: Double, name: String, type: String) {
+        val dbHelper = DatabaseHelper(requireContext())
+        dbHelper.insertAccount(accountId, userId, balance, name, type, 0) // Mark as unsynced
+    }
+
     private fun openAnyliticsFragment(accountId: String) {
         val fragment = Anylitics()
 

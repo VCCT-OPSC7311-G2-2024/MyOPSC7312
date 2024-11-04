@@ -42,7 +42,7 @@ android {
 
 dependencies {
 
-    implementation(platform("com.google.firebase:firebase-bom:32.0.0"))
+    implementation( platform("com.google.firebase:firebase-bom:32.0.0"))
     implementation("com.google.firebase:firebase-messaging-ktx")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.google.firebase.auth.ktx)
     implementation(libs.google.firebase.database.ktx)
     implementation(libs.play.services.games.v2)
+    //implementation(libs.androidx.biometric.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,6 +61,5 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.gson)
     implementation(libs.androidx.biometric)
-
 
 }

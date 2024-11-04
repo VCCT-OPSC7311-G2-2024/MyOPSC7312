@@ -87,7 +87,7 @@ class AddAccountFragment : Fragment() {
         }
         // Create key for account
         val accountId = database.push().key!!
-        val account = Account(enterBalance, enterName, enterType)
+        val account = Account(enterBalance, enterName, enterType, 1)
 
         if (NetworkUtil.isNetworkAvailable(requireContext())) {
             // Save to Firebase
@@ -108,7 +108,7 @@ class AddAccountFragment : Fragment() {
                 put("type", enterType)
                 put("synced", 0)
             }
-            databaseHelper.insertAccount(accountId, userUid, enterBalance.toDouble(), enterName, enterType)
+            databaseHelper.insertAccount(accountId, userUid, enterBalance.toDouble(), enterName, enterType, 0)
             Toast.makeText(requireContext(), "Account saved locally", Toast.LENGTH_SHORT).show()
         }
 
@@ -128,5 +128,5 @@ class AddAccountFragment : Fragment() {
         super.onResume()
         syncUnsyncedAccounts()
     }
-    data class Account(  val balance: String, val name: String, val type: String)
+    data class Account(val balance: String, val name: String, val type: String, val synced: Int)
 }

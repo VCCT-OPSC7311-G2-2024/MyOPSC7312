@@ -2,6 +2,7 @@ package com.example.myopsc7312
 
 import android.content.Intent
 import android.content.SharedPreferences
+import androidx.biometric.BiometricPrompt
 import android.os.Bundle
 import android.text.TextUtils
 import android.widget.Button
@@ -11,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.google.firebase.database.*
 import java.util.concurrent.Executor
@@ -36,6 +36,14 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_login)
+
+        // Initialize DatabaseHelper and insert user data
+        val dbHelper = DatabaseHelper(this)
+        //dbHelper.insertUser("Umara2003@gmail.com", "UAhmed@123")
+        // Initialize SyncManager and call sync method
+        val syncManager = SyncManager(this)
+        syncManager.syncSQLiteToFirebase(this)
+
 
         // Initialize UI components
         emailEditText = findViewById(R.id.et_email)
@@ -100,36 +108,69 @@ class LoginActivity : AppCompatActivity() {
     //-------------------------------------------------------------------------------------------
     //Traditional login
     private fun loginUser(email: String, password: String) {
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                var userFound = false
-                for (userSnapshot in dataSnapshot.children) {
-                    val user = userSnapshot.getValue(User::class.java)
-                    if (user != null) {
-                        if (user.email == email && user.password == password) {
-                            userFound = true
-                            val userUId = userSnapshot.key // This retrieves the user's ID from Firebase
+        if (NetworkUtil.isNetworkAvailable(this)) {
+            database.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    var userFound = false
+                    for (userSnapshot in dataSnapshot.children) {
+                        val user = userSnapshot.getValue(User::class.java)
+                        if (user != null) {
+                            if (user.email == email && user.password == password) {
+                                userFound = true
+                                val userUId = userSnapshot.key // This retrieves the user's ID from Firebase
 
-                            Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
+                                // Save user credentials to local SQLite database
+                                val dbHelper = DatabaseHelper(this@LoginActivity)
+                                dbHelper.insertUser(userUId!!, user.email, user.password)// Notify user of successful login
 
-                            // Navigate to Home or Dashboard and pass the userId
-                            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
-                            intent.putExtra("userUid", userUId) // Pass userId to the next activity
-                            startActivity(intent)
-                            finish() // Optionally close login screen
-                            break
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Login successful!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                // Navigate to Home or Dashboard and pass the userId
+                                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                intent.putExtra(
+                                    "userUid",
+                                    userUId
+                                ) // Pass userId to the next activity
+                                startActivity(intent)
+                                finish() // Optionally close login screen
+                                break
+                            }
                         }
                     }
+                    if (!userFound) {
+                        Toast.makeText(
+                            this@LoginActivity,
+                            "Invalid email or password",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
-                if (!userFound) {
-                    Toast.makeText(this@LoginActivity, "Invalid email or password", Toast.LENGTH_SHORT).show()
-                }
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@LoginActivity, "Login failed: ${databaseError.message}", Toast.LENGTH_SHORT).show()
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(
+                        this@LoginActivity,
+                        "Login failed: ${databaseError.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+        }
+        else {
+            // Check local credentials
+            val dbHelper = DatabaseHelper(this)
+            if (dbHelper.checkUserCredentials(email, password)) {
+                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
             }
-        })
+        }
     }
 
     //-------------------------------------------------------------------------------------------
