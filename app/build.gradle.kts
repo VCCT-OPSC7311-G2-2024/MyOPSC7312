@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myopsc7312"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -52,10 +52,14 @@ dependencies {
     implementation(libs.google.firebase.messaging.ktx)
     implementation(libs.google.firebase.auth.ktx)
     implementation(libs.google.firebase.database.ktx)
+    implementation(libs.play.services.games.v2)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
     implementation(libs.gson)
+    implementation(libs.androidx.biometric)
+
+
 }

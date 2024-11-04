@@ -1,5 +1,5 @@
 [versions]
-agp = "8.3.0"
+agp = "8.6.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -16,8 +16,11 @@ firebaseMessagingKtx = "23.0.0"
 firebaseDatabaseKtx = "21.0.0"
 okhttp = "4.9.3"
 gson = "2.8.8"
+biometricKtx = "1.1.0"
+playServicesGamesV2 = "20.1.2"
 
 [libraries]
+androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometricKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -32,6 +35,8 @@ google-firebase-database-ktx = { group = "com.google.firebase", name = "firebase
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+androidx-biometric-ktx = { group = "androidx.biometric", name = "biometric-ktx", version.ref = "biometricKtx" }
+play-services-games-v2 = { group = "com.google.android.gms", name = "play-services-games-v2", version.ref = "playServicesGamesV2" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

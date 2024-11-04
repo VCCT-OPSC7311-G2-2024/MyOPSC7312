@@ -18,7 +18,7 @@ import org.json.JSONObject
 import java.io.IOException
 
 
-class CurrencyConverterAPI : AppCompatActivity() {
+class CurrencyConverterAPI : AppCompatActivity(){
 
     private lateinit var amountInput: EditText
     private lateinit var fromCurrency: Spinner
