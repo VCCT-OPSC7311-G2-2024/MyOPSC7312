@@ -132,6 +132,9 @@ class RegisterActivity : AppCompatActivity() {
             val dbHelper = DatabaseHelper(this)
             dbHelper.insertUser(email, password)
             Toast.makeText(this, "No internet connection. User data saved locally.", Toast.LENGTH_SHORT).show()
+            // Navigate to new activity
+            val intent = Intent(this, LoginActivity::class.java) // Change to Accounts Page
+            startActivity(intent)
         }
     }
     //data class User(val email: String, val password: String)
