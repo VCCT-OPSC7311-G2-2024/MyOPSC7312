@@ -11,13 +11,13 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.myopsc7312.databinding.FragmentAddAccountBinding
+//import com.example.myopsc7312.databinding.FragmentAddAccountBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
 class AddAccountFragment : Fragment() {
 
-    private var binding: FragmentAddAccountBinding? = null
+    //private var binding: FragmentAddAccountBinding? = null
     private lateinit var accountName:EditText
     private lateinit var accountBalance:EditText
     private lateinit var accountType:AutoCompleteTextView
