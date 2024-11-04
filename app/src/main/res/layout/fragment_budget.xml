@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginTop="10dp"
-            android:text="Name:"
+            android:text="@string/name"
             android:textStyle="bold" />
 
         <EditText
@@ -105,7 +105,7 @@
             android:layout_marginStart="60dp"
             android:autofillHints="E.g. Groceries"
             android:background="@drawable/shape_2"
-            android:hint="E.g. Groceries"
+            android:hint="@string/groceries_lbl"
             android:inputType="text"
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
-            android:text="Amount:"
+            android:text="@string/amount_lbl"
             android:textStyle="bold" />
 
         <EditText

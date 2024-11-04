@@ -82,6 +82,7 @@ class Settings : Fragment() {
         loadPreferences()
         setupButtonListeners()
         setupCheckboxListeners()
+        languageChange()
 
         currentUserId = arguments?.getString("userUid").toString()
         Toast.makeText(requireContext(), currentUserId, Toast.LENGTH_SHORT).show()
@@ -176,6 +177,18 @@ class Settings : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         languageSpinner.adapter = adapter
 
+
+        // Load the saved language from SharedPreferences
+        val savedLanguageCode = sharedPreferences.getString("languageCode", "en")
+        val savedLanguagePosition = when (savedLanguageCode) {
+            "en" -> 0
+            "ts" -> 1
+            "af" -> 2
+            else -> 0
+        }
+        languageSpinner.setSelection(savedLanguagePosition)
+
+
         // Set up listener for language selection
         languageSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -198,6 +211,12 @@ class Settings : Fragment() {
         val config = resources.configuration
         config.setLocale(locale)
         requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+
+        // Save the selected language to SharedPreferences
+        with(sharedPreferences.edit()) {
+            putString("languageCode", languageCode)
+            apply()
+        }
 
         // Restart the fragment to apply the language change
         parentFragmentManager.beginTransaction().detach(this).attach(this).commit()
@@ -255,13 +274,16 @@ class Settings : Fragment() {
         notificationCheckBox.isEnabled = false
         onlineCheckBox.isEnabled = false
 
-        if(validateNewInputs(usernameField.text.toString(),passwordField.text.toString()) == true)
+        // Save the changes to the database
+        val username = usernameField.text.toString()
+        val password = passwordField.text.toString()
+        val newLanguage = languageSpinner.selectedItem.toString()
+
+        if(validateNewInputs(username, password) == true || newLanguage != getCurrentLanguage())
         {
-            // Save the changes to the database
-            val username = usernameField.text.toString()
-            val password = passwordField.text.toString()
             val notifications = notificationCheckBox.isChecked
             val onlineMode = onlineCheckBox.isChecked
+
 
             // Get the user reference
             val userRef = database.getReference("users").child(currentUserId)
@@ -297,6 +319,14 @@ class Settings : Fragment() {
         }
     }
 
+    private fun getCurrentLanguage(): String {
+        return when (Locale.getDefault().language) {
+            "en" -> "English"
+            "ts" -> "Tsonga"
+            "af" -> "Afrikaans"
+            else -> "English"
+        }
+    }
 
     // Handle online mode checkbox change
     private fun handleOnlineModeChange(isChecked: Boolean) {

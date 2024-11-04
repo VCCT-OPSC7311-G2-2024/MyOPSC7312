@@ -6,6 +6,12 @@
     <string name="app_icon_desc">App-ikoon</string>
     <string name="currency_converter_desc">Geldeenheid omsetter</string>
     <string name="settings_desc">Profiel</string>
+    <string name="settings_edit_btn">Wysig Profiel</string>
+    <string name="sign_out">Teken uit</string>
+    <string name="save_changes">Stoor Veranderinge</string>
+    <string name="username_lbl">Gebruikersnaam:</string>
+    <string name="password_lbl">Wagwoord:</string>
+    <string name="language_lbl">Taal</string>
     <string name="savings_text">Spaargeld</string>
     <string name="assets_value">0</string>
     <string name="profile">Ek</string>
@@ -15,13 +21,21 @@
     <string name="liabilities_text">Laste</string>
     <string name="add_account">Voeg rekening by</string>
     <string name="converter">Omsetter</string>
+    <string name="convert">Omskep</string>
     <string name="select_account_type">Kies rekening tipe</string>
     <string name="addacount_header_text">Voeg Rekening By</string>
     <string name="btn_cancel">Kanselleer</string>
-    <string name="name">Naam</string>
+    <string name="name">Naam:</string>
+    <string name="groceries_lbl">Kruideniersware</string>
+    <string name="amount_lbl">Bedrag:</string>
+    <string name="expense_header">Teken uitgawe aan</string>
+    <string name="expense_title">Teken uitgawe hier aan</string>
     <string name="account_balance">Rekeningbalans</string>
     <string name="account_balance_prompt">Voer rekeningbalans in</string>
     <string name="account_name_prompt">Voer rekeningnaam in</string>
+    <string name="converter_hint">Voer bedrag in</string>
+    <string name="home_currency">Van Geldeenheid</string>
+    <string name="target_currency">Na Geldeenheid</string>
     <string name="account_type">Rekeningtipe</string>
     <string name="analytics_header_text">Analise</string>
     <string name="monthStats">Maandelikse Statistiek</string>
@@ -34,7 +48,7 @@
     <string name="budget_header">Maak jou Begroting</string>
     <string name="submit">Dien in</string>
     <string name="monthBudget">Maandelikse Begroting</string>
-    <string name="home">Rekeninge</string>
+    <string name="home">tuiste</string>
     <string-array name="account_types">
         <item>Spaarrekening</item>
         <item>Lopende rekening</item>

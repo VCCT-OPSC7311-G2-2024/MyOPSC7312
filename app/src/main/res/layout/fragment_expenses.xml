@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Log expenses here "
+        android:text="@string/expense_title"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
-            android:text="log expense"
+            android:text="@string/expense_header"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_marginTop="10dp"
-            android:text="Name:"
+            android:text="@string/name"
             android:textStyle="bold"
             android:textColor="@color/black" />
 
@@ -104,7 +104,7 @@
             android:layout_gravity="top"
             android:layout_marginStart="60dp"
             android:background="@drawable/shape_2"
-            android:hint="E.g. Groceries"
+            android:hint="@string/groceries_lbl"
             android:autofillHints="E.g. Groceries"
             android:inputType="text"
             android:textAlignment="center"
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="10dp"
-            android:text="Amount:"
+            android:text="@string/amount_lbl"
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
@@ -161,7 +161,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/light_dark_green"
-        android:text="submit"
+        android:text="@string/submit"
         app:cornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

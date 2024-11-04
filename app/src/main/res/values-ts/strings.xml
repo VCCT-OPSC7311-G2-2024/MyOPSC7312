@@ -6,6 +6,12 @@
     <string name="app_icon_desc">Xifaniso xa App</string>
     <string name="currency_converter_desc">Muhundzuluxi wa mali</string>
     <string name="settings_desc">Profayili</string>
+    <string name="settings_edit_btn">Hlawula Profayili</string>
+    <string name="sign_out">Huma kumbe famba</string>
+    <string name="save_changes">Hlayisa ku cinca</string>
+    <string name="username_lbl">Vito ra muchayeri:</string>
+    <string name="password_lbl">Xinombedzo</string>
+    <string name="language_lbl">Ririmi</string>
     <string name="savings_text">Ku hlayisa</string>
     <string name="assets_value">0</string>
     <string name="profile">Mina</string>
@@ -15,13 +21,21 @@
     <string name="liabilities_text">Timbilu</string>
     <string name="add_account">Engetela akhawunti</string>
     <string name="converter">Muhundzuluxi</string>
+    <string name="convert">Hundzuluxa</string>
     <string name="select_account_type">Kheta muxaka wa akhawunti</string>
     <string name="addacount_header_text">Engetela Akhawunti</string>
     <string name="btn_cancel">Khansela</string>
-    <string name="name">Vito</string>
+    <string name="name">Vito:</string>
+    <string name="groceries_lbl">Swakudya</string>
+    <string name="amount_lbl">Mpimanyeto:</string>
+    <string name="expense_header">Tsala ndzuvo</string>
+    <string name="expense_title">Tsala ndzuvo laha</string>
     <string name="account_balance">Nhlamuselo ya akhawunti</string>
     <string name="account_balance_prompt">Nghenisa nhlamuselo ya akhawunti</string>
     <string name="account_name_prompt">Nghenisa vito ra akhawunti</string>
+    <string name="converter_hint">Nghenisa Mali</string>
+    <string name="home_currency">ku suka eka mali</string>
+    <string name="target_currency">eka mali</string>
     <string name="account_type">Muxaka wa akhawunti</string>
     <string name="analytics_header_text">Vundzeni</string>
     <string name="monthStats">Tingheniso ta Nhweti</string>
@@ -34,7 +48,7 @@
     <string name="budget_header">Endla ndhavuko wa mali ya wena</string>
     <string name="submit">Hlawula</string>
     <string name="monthBudget">Ndhavuko wa Nhweti</string>
-    <string name="home">Tibuku ta Akhawunti</string>
+    <string name="home">Yindlu</string>
     <string-array name="account_types">
         <item>Akhawunti ya ku hlayisa</item>
         <item>Akhawunti ya ku tirha</item>
