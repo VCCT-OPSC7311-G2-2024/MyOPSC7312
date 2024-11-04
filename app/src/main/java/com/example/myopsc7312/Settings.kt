@@ -131,7 +131,7 @@ class Settings : Fragment() {
         saveBtn = view.findViewById(R.id.saveChangesBtn)
         usernameField = view.findViewById(R.id.usernameTxt)
         passwordField = view.findViewById(R.id.passwordTxt)
-        notificationCheckBox = view.findViewById(R.id.notificationCheckBox)
+        //notificationCheckBox = view.findViewById(R.id.notificationCheckBox)
         onlineCheckBox = view.findViewById(R.id.offlineCheckBox)
         languageSpinner = view.findViewById(R.id.languageSpinner)
 
@@ -145,7 +145,7 @@ class Settings : Fragment() {
 
     // Load saved preferences for checkboxes
     private fun loadPreferences() {
-        notificationCheckBox.isChecked = sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, true)
+        //notificationCheckBox.isChecked = sharedPreferences.getBoolean(KEY_NOTIFICATIONS_ENABLED, true)
         onlineCheckBox.isChecked = sharedPreferences.getBoolean(KEY_ONLINE_MODE, false)
     }
 
@@ -156,11 +156,11 @@ class Settings : Fragment() {
         editBtn.setOnClickListener { enableEditing() }
 
         //navigation functions
-        //converterNavBtn.setOnClickListener {
-         //   val intent = Intent(requireContext(), CurrencyConverterAPI::class.java)
-         //   intent.putExtra("userUid", currentUserId)
-         //   startActivity(intent)
-        //}
+        /*converterNavBtn.setOnClickListener {
+            val intent = Intent(requireContext(), CurrencyConverterAPI::class.java)
+            intent.putExtra("userUid", currentUserId)
+            startActivity(intent)
+        }*/
         homeNavBtn.setOnClickListener {
             // Create a Bundle to pass data
             val bundle = Bundle()
@@ -220,7 +220,7 @@ class Settings : Fragment() {
         val savedLanguagePosition = when (savedLanguageCode) {
             "en" -> 0
             "ts" -> 1
-            "af" -> 2
+            "afaf-rZA" -> 2
             else -> 0
         }
         languageSpinner.setSelection(savedLanguagePosition)
@@ -232,7 +232,7 @@ class Settings : Fragment() {
                 when (position) {
                     0 -> setLocale("en")  // English
                     1 -> setLocale("ts")  // Tsonga
-                    2 -> setLocale("af")  // Afrikaans
+                    2 -> setLocale("af-rZA")  // Afrikaans
                 }
             }
 
@@ -262,7 +262,7 @@ class Settings : Fragment() {
 
     // Set up checkbox change listeners
     private fun setupCheckboxListeners() {
-        notificationCheckBox.setOnCheckedChangeListener { _, isChecked -> handleNotificationChange(isChecked) }
+        //notificationCheckBox.setOnCheckedChangeListener { _, isChecked -> handleNotificationChange(isChecked) }
         onlineCheckBox.setOnCheckedChangeListener { _, isChecked -> handleOnlineModeChange(isChecked) }
 
     }
@@ -283,7 +283,7 @@ class Settings : Fragment() {
         editBtn.visibility = View.GONE
         usernameField.isEnabled = true
         passwordField.isEnabled = true
-        notificationCheckBox.isEnabled = true
+        //notificationCheckBox.isEnabled = true
         onlineCheckBox.isEnabled = true
     }
 
@@ -308,7 +308,7 @@ class Settings : Fragment() {
         saveBtn.visibility = View.GONE
         usernameField.isEnabled = false
         passwordField.isEnabled = false
-        notificationCheckBox.isEnabled = false
+        //notificationCheckBox.isEnabled = false
         onlineCheckBox.isEnabled = false
 
         // Save the changes to the database
@@ -318,7 +318,7 @@ class Settings : Fragment() {
 
         if(validateNewInputs(username, password) == true || newLanguage != getCurrentLanguage())
         {
-            val notifications = notificationCheckBox.isChecked
+            //val notifications = notificationCheckBox.isChecked
             val onlineMode = onlineCheckBox.isChecked
 
 
@@ -336,13 +336,13 @@ class Settings : Fragment() {
                 // Update successful
                 Toast.makeText(requireContext(), "User data updated successfully", Toast.LENGTH_SHORT).show()
                 //send notification
-                if (notifications == true) {
+               /* if (notifications == true) {
                     val message = "Your profile has been updated"
                     Log.d("Notification", message)
                     val notificationHelper = NotificationHelper(this.requireContext())
                     notificationHelper.createNotification("Profile Update", message)
                     //NotificationUtils.sendNotification("all", "Profile Update", message)
-                }
+                }*/
 
             }.addOnFailureListener { e ->
                 // Update failed
@@ -350,7 +350,7 @@ class Settings : Fragment() {
             }
 
             // Save the changes to SharedPreferences
-            savePreference(KEY_NOTIFICATIONS_ENABLED, notifications)
+            //savePreference(KEY_NOTIFICATIONS_ENABLED, notifications)
             savePreference(KEY_ONLINE_MODE, onlineMode)
 
         }
@@ -360,7 +360,7 @@ class Settings : Fragment() {
         return when (Locale.getDefault().language) {
             "en" -> "English"
             "ts" -> "Tsonga"
-            "af" -> "Afrikaans"
+            "af-rZA" -> "Afrikaans"
             else -> "English"
         }
     }
