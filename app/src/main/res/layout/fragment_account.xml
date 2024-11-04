@@ -254,6 +254,32 @@
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/calculatorNavigator"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="start"
+            android:layout_marginStart="65dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/Footer"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/calculator_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/calculator_icon" />
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:text="@string/calculator"
+                android:textAlignment="center" />
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/Profileravigator"
             android:layout_width="50dp"
             android:layout_height="50dp"

@@ -60,6 +60,7 @@
     <string name="register">Register</string>
     <string name="signIn">---------   Sign in   ---------</string>
     <string name="e.g.Groceries">E.g. Groceries</string>
+    <string name="calculator">Calculator</string>
     <string-array name="account_types">
         <item>Savings</item>
         <item>Checkings</item>

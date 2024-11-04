@@ -1,6 +1,7 @@
 package com.example.myopsc7312
 
 import android.accounts.Account
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract.Profile
@@ -26,8 +27,10 @@ class AccountFragment : Fragment() {
     private lateinit var userUid: String // Store user UID
     private lateinit var assetsValueTextView: TextView // TextView for displaying total assets
     private lateinit var converterLayout: FrameLayout
+    private lateinit var calculatorLayout: FrameLayout
     private lateinit var profileLayout: FrameLayout
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,6 +73,14 @@ class AccountFragment : Fragment() {
             intent.putExtra("userUid", userUid)
             startActivity(intent)
         }
+
+        calculatorLayout = view.findViewById(R.id.calculatorNavigator)
+        calculatorLayout.setOnClickListener {
+            val intent = Intent(requireContext(), Calculator::class.java)
+            intent.putExtra("userUid", userUid)
+            startActivity(intent)
+        }
+
         //profileLayout = view.findViewById(R.id.Profileravigator)
         profileFragment.setOnClickListener {
             Toast.makeText(requireContext(), "${userUid} is the userUid", Toast.LENGTH_SHORT).show()

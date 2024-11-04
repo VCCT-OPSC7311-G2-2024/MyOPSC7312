@@ -60,6 +60,7 @@
     <string name="register">Tsarisela</string>
     <string name="signIn">---------   Tsarisa   ---------</string>
     <string name="e.g.Groceries">E.g. Swilo swo xavisa swakudya</string>
+    <string name="calculator">Kalkuleta</string>
     <string-array name="account_types">
         <item>Akhawunti ya ku hlayisa</item>
         <item>Akhawunti ya ku tirha</item>

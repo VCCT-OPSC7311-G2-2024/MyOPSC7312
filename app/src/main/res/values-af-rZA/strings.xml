@@ -60,6 +60,7 @@
     <string name="register">Registreer</string>
     <string name="signIn">---------   Teken in   ---------</string>
     <string name="e.g.Groceries">bv. Kruideniersware</string>
+    <string name="calculator">Sakrekenaar</string>
     <string-array name="account_types">
         <item>Spaarrekening</item>
         <item>Lopende rekening</item>
